@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Modul PAI Kelas 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf6ea;--cd:#fff;--ink:#0f1f3d;--mut:#5b6578;--hd:#0f1f3d;--ac:#0f1f3d;--em:#0f7a5a;--gd:#c9a227;--ln:#e6dcc3}
+:root[data-t=dark]{--bg:#0a1429;--cd:#12213f;--ink:#eef0f5;--mut:#a3adc2;--hd:#0d1a33;--ac:#e3c55a;--ln:#243459}
+*{box-sizing:border-box}body{margin:0;font:16px/1.65 Cairo,sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 12px;background:var(--hd) repeating-conic-gradient(#ffffff0d 0 25%,transparent 0 50%) 0 0/26px 26px;color:#fff;border-bottom:3px solid var(--gd)}
+.br{flex:1;font-size:1.1rem}.ic{width:44px;height:44px;border:1px solid #ffffff44;border-radius:12px;background:none;color:#fff;font-size:1.2rem}
+nav{display:none;width:100%}nav.open{display:block}nav a{display:block;padding:12px;color:#fff;border-top:1px solid #ffffff22;cursor:pointer}
+@media(min-width:800px){nav{display:flex!important;width:auto;order:2;gap:4px}nav a{border:0}.br{flex:0 0 auto;margin-right:12px}}
+main{max-width:860px;margin:auto;padding:8px 14px 60px}
+h1,h2,h3{color:var(--ac);line-height:1.3}
+.c{background:var(--cd);border:1px solid var(--ln);border-radius:16px;padding:16px;margin:12px 0}
+.hero{text-align:center;border-radius:50% 50% 16px 16px/80px 80px 16px 16px;padding-top:34px;border-top:4px solid var(--gd)}
+.ar{font-family:Amiri,serif;font-size:1.55rem;direction:rtl;text-align:right;line-height:2.1;color:var(--ac)}.hero .ar{text-align:center;font-size:2rem}
+.b{display:block;width:100%;min-height:48px;margin:8px 0;border:0;border-radius:12px;background:var(--em);color:#fff;font:600 1rem Cairo;cursor:pointer}
+.b.g{background:var(--gd);color:#241c00}.b.o{background:none;color:var(--ink);border:1px solid var(--ln)}
+input,select,textarea{width:100%;min-height:48px;margin:6px 0;padding:10px 12px;font:inherit;color:var(--ink);background:var(--cd);border:1px solid var(--ln);border-radius:12px}
+.opt{display:flex;gap:10px;align-items:center;min-height:48px;margin:8px 0;padding:10px 12px;border:1px solid var(--ln);border-radius:12px}
+.opt input{width:22px;min-height:0;margin:0}.opt:has(input:checked){border-color:var(--gd);background:#c9a22722}
+.pg{height:10px;background:var(--ln);border-radius:9px;overflow:hidden}.pg i{display:block;height:100%;background:linear-gradient(90deg,var(--em),var(--gd))}
+.chip{display:inline-block;margin:3px;padding:4px 12px;border-radius:20px;background:#0f7a5a22;border:1px solid var(--em)}
+.bd{display:inline-block;margin:3px;padding:6px 12px;border-radius:20px;background:var(--gd);color:#241c00;font-weight:600}.bd.x{opacity:.35}
+.d{display:inline-block;width:10px;height:10px;border-radius:50%;background:#999}.d.on{background:#22c55e}
+.mut,small{color:var(--mut)}.ok{color:var(--em);font-weight:600}.no{color:#d33;font-weight:600}
+#toast{position:fixed;left:12px;right:12px;bottom:16px;z-index:9;padding:12px;border-radius:12px;background:var(--hd);color:#fff;border:1px solid var(--gd);text-align:center}
+</style></head><body>
+<header><b class="br">☪ PAI Kelas 9</b><button class="ic" onclick="th()" aria-label="Ganti tema">◐</button><button class="ic" onclick="$('#nav').classList.toggle('open')" aria-label="Menu">☰</button><nav id="nav"></nav></header>
+<main id="app"></main><div id="toast" hidden></div>
+<script>
+const API='GANTI_DENGAN_URL_WEB_APP';
+const $=s=>document.querySelector(s),KS=['A','B','C','D','E','F'].map(x=>'9'+x);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const lsg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lss=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
+document.documentElement.dataset.t=lsg('t')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+function th(){const r=document.documentElement,n=r.dataset.t==='dark'?'light':'dark';r.dataset.t=n;lss('t',n)}
+let S=JSON.parse(lsg('sess')||'null'),ST={xp:0,prog:{},lb:[]},T=null,tab='s',fk='',page='home',bab=0,GL=[],GU=[];
+const toast=m=>{const t=$('#toast');t.textContent=m;t.hidden=false;setTimeout(()=>t.hidden=true,2800)};
+const api=(a,d)=>fetch(API,{method:'POST',body:JSON.stringify({a,id:S&&S.id,sid:S&&S.sid,...d})}).then(r=>r.json());
+async function call(a,d){try{const r=await api(a,d);if(r.kicked){forceOut();return null}if(!r.ok){toast(r.err||'Gagal');return null}return r}catch(e){toast('Koneksi gagal, coba lagi');return null}}
+function forceOut(){toast('Akun dipakai di perangkat lain. Silakan masuk lagi.');out()}
+function out(){S=null;lss('sess',null);page='home';render()}
+const P=n=>ST.prog[n]||{},LV=x=>Math.floor(x/30)+1;
+const pct=()=>Math.round([1,2,3,4,5].reduce((a,n)=>a+(P(n).m?1:0)+(P(n).l?1:0),0)*10);
+const BD=[[10,'Langkah Awal'],[50,'Pelajar Rajin'],[100,'Penuntut Ilmu'],[150,'Khatam Modul']];
+const NAV=[['home','Beranda'],['materi','Materi'],['latihan','Latihan Soal'],['progres','Progres Belajar'],['guru','Laman Guru']];
+function go(p,b){page=p;bab=b||0;render();scrollTo(0,0);hb(1)}
+function hb(ev){if(S)api('hb',{bab,page,ev}).then(r=>r.kicked&&forceOut()).catch(()=>{})}
+setInterval(hb,30000);setInterval(()=>{if(page==='guru'&&T&&tab==='s')gl()},20000);
+async function load(){const r=await call('state');if(r)ST=r}
+function render(){$('#nav').innerHTML=NAV.map(n=>`<a onclick="go('${n[0]}')">${n[1]}</a>`).join('')+(S?`<a onclick="out()">Keluar: ${esc(S.nama)} (${S.kelas}/${S.absen})</a>`:'');
+ $('#nav').classList.remove('open');if(!S&&page!=='guru')return V.login();V[page==='bab'?'bab':page]()}
+const opts=s=>KS.map(k=>`<option ${k===s?'selected':''}>${k}`).join('');
+const bar=p=>`<div class="pg"><i style="width:${p}%"></i></div>`;
+
+const V={
+login(){$('#app').innerHTML=`<div class="c hero"><div class="ar">بِسْمِ اللَّهِ</div><h1>Modul PAI Kelas 9</h1></div><div class="c"><input id="ln" placeholder="Nama lengkap" autocomplete="name"><input id="la" type="number" min="1" placeholder="Nomor absen"><select id="lk">${opts()}</select><button class="b" onclick="doLogin()">Masuk</button><button class="b o" onclick="go('guru')">Laman Guru</button></div>`},
+async home(){await load();const x=pct(),nx=[1,2,3,4,5].map(n=>!P(n).m?['materi',n]:!P(n).l?['latihan',n]:0).find(Boolean);
+ $('#app').innerHTML=`<div class="c hero"><div class="ar">السَّلَامُ عَلَيْكُمْ</div><h2>${esc(S.nama)}</h2><p>Level ${LV(ST.xp)} · ${ST.xp} XP</p>${bar(x)}<p class="mut">Progres ${x}%</p>${nx?`<button class="b g" onclick="go('${nx[0]==='materi'?'bab':'quiz'}',${nx[1]})">Lanjutkan Bab ${nx[1]}</button>`:'<p class="ok">Semua bab selesai. Barakallah!</p>'}</div>`},
+materi(){$('#app').innerHTML=CH.map((c,i)=>`<div class="c"><span style="font-size:2rem">${c.e}</span> <b>Bab ${i+1}</b><h3>${c.t}</h3><p class="${P(i+1).m?'ok':'mut'}">${P(i+1).m?'Selesai ✓':'Belum selesai'}</p><button class="b" onclick="go('bab',${i+1})">Buka materi</button></div>`).join('')},
+bab(){const c=CH[bab-1];$('#app').innerHTML=`<div class="c hero"><div style="font-size:2.4rem">${c.e}</div><h2>Bab ${bab}. ${c.t}</h2></div>
+<div class="c"><h3>Tujuan pembelajaran</h3>${c.tj.map(x=>`<p>• ${x}</p>`).join('')}</div>
+<div class="c"><h3>Peta konsep</h3>${c.pk.map(x=>`<span class="chip">${x}</span>`).join(' ➜ ')}</div>
+<div class="c"><h3>Materi</h3>${c.ms.map(x=>`<p>${x}</p>`).join('')}</div>
+<div class="c"><h3>Dalil dan terjemahan</h3>${c.dl.map(d=>`<div class="ar">${d.r}</div><p><i>${d.i}</i></p>`).join('')}</div>
+<div class="c"><h3>Contoh penerapan</h3><p>${c.ct}</p></div><div class="c"><h3>Rangkuman</h3><p>${c.rg}</p>
+${P(bab).m?'<p class="ok">Bab ini sudah selesai ✓</p>':`<button class="b g" onclick="fin(${bab})">Selesai belajar (+10 XP)</button>`}</div>`},
+latihan(){$('#app').innerHTML=CH.map((c,i)=>`<div class="c"><b>Latihan Bab ${i+1}</b><p>${c.t}</p><p class="${P(i+1).l?'ok':'mut'}">${P(i+1).l?'Nilai pilihan ganda: '+P(i+1).n:'Belum dikerjakan'}</p><button class="b" onclick="go('quiz',${i+1})">${P(i+1).l?'Lihat status':'Mulai latihan'}</button></div>`).join('')},
+quiz(){const c=CH[bab-1];if(P(bab).l)return $('#app').innerHTML=`<div class="c"><h3>Latihan Bab ${bab}</h3><p class="ok">Sudah dikerjakan. Nilai pilihan ganda: ${P(bab).n}. Jawaban uraian sudah dikirim ke guru.</p><button class="b o" onclick="go('latihan')">Kembali</button></div>`;
+ $('#app').innerHTML=`<h2>Latihan Bab ${bab}</h2>${c.Q.m.map((q,i)=>`<div class="c"><b>${i+1}. ${q.q}</b>${q.o.map((o,j)=>`<label class="opt"><input type="radio" name="m${i}" value="${j}"><span>${'ABCD'[j]}. ${o}</span></label>`).join('')}</div>`).join('')}
+${c.Q.u.map((q,i)=>`<div class="c"><b>Uraian ${i+1}. ${q}</b><textarea id="u${i}" rows="4" placeholder="Tulis jawabanmu"></textarea></div>`).join('')}<button class="b g" onclick="sendQ()">Kirim jawaban (+20 XP)</button>`},
+async progres(){await load();$('#app').innerHTML=`<div class="c hero"><h2>Level ${LV(ST.xp)}</h2><p>${ST.xp} XP · ${pct()}%</p>${bar(pct())}</div><div class="c"><h3>Badge</h3>${BD.map(b=>`<span class="bd ${ST.xp>=b[0]?'':'x'}">${b[1]}</span>`).join('')}</div>
+${CH.map((c,i)=>`<div class="c"><b>Bab ${i+1}</b><br>Materi: ${P(i+1).m?'✓':'-'} · Latihan: ${P(i+1).l?'✓ nilai '+P(i+1).n:'-'}</div>`).join('')}
+<div class="c"><h3>Leaderboard</h3>${ST.lb.map((x,i)=>`<p>${i+1}. ${esc(x.nama)} (${x.kelas}) <b>${x.xp} XP</b></p>`).join('')||'<p class="mut">Belum ada data.</p>'}</div>`},
+guru(){if(!T)return $('#app').innerHTML=`<div class="c"><h2>Laman Guru</h2><input id="gp" type="password" placeholder="Password guru"><button class="b" onclick="gLogin()">Masuk</button></div>`;
+ $('#app').innerHTML=`<div class="c"><select id="gk" onchange="fk=this.value;gt()"><option value="">Semua kelas${KS.map(k=>`<option ${k===fk?'selected':''}>${k}`).join('')}</select><button class="b ${tab==='s'?'':'o'}" onclick="tab='s';gt()">Siswa dan status online</button><button class="b ${tab==='u'?'':'o'}" onclick="tab='u';gt()">Jawaban uraian</button><button class="b o" onclick="T=null;render()">Keluar guru</button></div><div id="gb"></div>`;gt()}};
+
+async function doLogin(){const r=await call('login',{id:0,sid:0,nama:$('#ln').value,absen:$('#la').value,kelas:$('#lk').value});if(!r)return;
+ S={id:r.id,sid:r.sid,nama:r.nama,kelas:r.kelas,absen:r.absen};lss('sess',JSON.stringify(S));ST=r;go('home')}
+async function fin(n){const r=await call('finish',{bab:n});if(r){ST=r;toast(r.gain?'+'+r.gain+' XP':'Sudah tercatat');go('materi')}}
+async function sendQ(){const c=CH[bab-1],mc=c.Q.m.map((q,i)=>{const e=document.querySelector(`input[name=m${i}]:checked`);return e?+e.value:-1}),ur=c.Q.u.map((q,i)=>$('#u'+i).value.trim());
+ if(mc.includes(-1)||ur.some(x=>!x))return toast('Jawab semua soal dulu');
+ const r=await call('quiz',{bab,mc,ur});if(!r)return;ST={xp:r.xp,prog:r.prog,lb:r.lb};
+ $('#app').innerHTML=`<div class="c hero"><h2>Nilai: ${r.nilai}</h2><p>Benar ${r.benar} dari ${r.total}${r.gain?' · +'+r.gain+' XP':''}</p></div>${r.review.map((v,i)=>`<div class="c"><p class="${v.ok?'ok':'no'}">Soal ${i+1}: ${v.ok?'Benar':'Salah'}. Kunci: ${'ABCD'[v.kunci]}</p><p>${esc(v.bahas)}</p></div>`).join('')}<div class="c"><p>Jawaban uraian dikirim ke guru untuk dinilai.</p><button class="b" onclick="go('latihan')">Selesai</button></div>`}
+
+async function gLogin(){const r=await call('tlogin',{id:0,sid:0,pw:$('#gp').value});if(r){T=r.token;render()}}
+const G=(a,d)=>call(a,{token:T,kelas:fk,id:0,sid:0,...d});
+function gt(){$('#gb').innerHTML=tab==='s'?`<div class="c"><input id="gn" placeholder="Nama siswa"><input id="ga" type="number" min="1" placeholder="Nomor absen"><select id="gc">${opts()}</select><input id="gi" type="hidden"><button class="b" onclick="gSave()">Simpan siswa</button></div><div id="gl"></div>`:'<div id="gl"></div>';tab==='s'?gl():gu()}
+async function gl(){const r=await G('tlist');if(!r||!$('#gl'))return;GL=r.s;
+ $('#gl').innerHTML=GL.map((x,i)=>`<div class="c"><span class="d ${x.on?'on':''}"></span> <b>${esc(x.nama)}</b> · ${x.kelas}/${x.absen}${x.dup?' · ⚠ sesi ganda':''}<br><small>${x.on?`Online · Bab ${x.bab||'-'} · ${esc(x.pg)}`:'Offline'+(x.seen?' · terakhir '+Math.round((Date.now()-x.seen)/60000)+' mnt lalu':'')}</small><br>XP ${x.xp} · Materi ${x.m}/5 · Latihan ${x.l}/5 · Rata-rata ${x.avg??'-'}<button class="b o" onclick="gEdit(${i})">Edit</button><button class="b o" onclick="gDel(${i})">Hapus</button></div>`).join('')||'<p class="mut">Belum ada siswa.</p>'}
+function gEdit(i){const x=GL[i];$('#gn').value=x.nama;$('#ga').value=x.absen;$('#gc').value=x.kelas;$('#gi').value=x.id;scrollTo(0,0)}
+async function gSave(){const r=await G('tsave',{s:{id:$('#gi').value,nama:$('#gn').value,absen:$('#ga').value,kelas:$('#gc').value}});if(r){toast('Tersimpan');gt()}}
+async function gDel(i){if(confirm('Hapus siswa '+GL[i].nama+'?')){const r=await G('tdel',{id:GL[i].id});if(r)gl()}}
+async function gu(){const r=await G('turaian');if(!r)return;GU=r.u;
+ $('#gl').innerHTML=GU.map((x,i)=>`<div class="c"><b>${esc(x.nama)}</b> · ${x.kelas} · Bab ${x.bab} No ${+x.no+1}<p class="mut">${CH[x.bab-1].Q.u[x.no]}</p><p>${esc(x.jawaban)}</p><input id="n${i}" type="number" min="0" max="100" placeholder="Nilai 0-100" value="${esc(x.nilai)}"><input id="k${i}" placeholder="Komentar" value="${esc(x.komentar)}"><button class="b" onclick="gNilai(${i})">Simpan nilai</button></div>`).join('')||'<p class="mut">Belum ada jawaban.</p>'}
+async function gNilai(i){const r=await G('tnilai',{key:GU[i].key,nilai:$('#n'+i).value,komentar:$('#k'+i).value});if(r)toast('Nilai tersimpan')}
+
+const CH=[
+{e:'📖',t:'Al-Qur’an Menginspirasi: Meraih Kesuksesan',tj:['Menjelaskan kandungan Q.S. Al-Mujadilah: 11 dan Az-Zumar: 9','Menunjukkan semangat menuntut ilmu','Menerapkan literasi Islam yang kritis'],pk:['Al-Qur’an','Iman dan ilmu','Derajat tinggi','Sukses dunia akhirat'],
+ms:['Al-Qur’an mengajak manusia membaca, berpikir, dan belajar. Wahyu pertama, Iqra’, adalah perintah membaca.','Q.S. Al-Mujadilah: 11 menegaskan bahwa Allah meninggikan derajat orang beriman dan berilmu. Ilmu tanpa iman bisa menyesatkan, iman tanpa ilmu mudah terbawa arus.','Q.S. Az-Zumar: 9 menegaskan orang berilmu tidak sama dengan orang yang tidak berilmu. Keutamaan ilmu: jalan menuju surga dan amal jariyah bila bermanfaat bagi orang lain.','Literasi Islam: membaca sumber terpercaya, mengecek kebenaran, memahami konteks, mengamalkan, lalu berbagi dengan santun.'],
+dl:[{r:'يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ',i:'Allah akan meninggikan orang-orang beriman di antara kamu dan orang-orang yang berilmu beberapa derajat. (Q.S. Al-Mujadilah: 11)'},{r:'هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ',i:'Apakah sama orang-orang yang mengetahui dengan orang-orang yang tidak mengetahui? (Q.S. Az-Zumar: 9)'}],
+ct:'Membuat jadwal belajar rutin, bertanya kepada guru, dan memeriksa sumber sebelum membagikan informasi.',rg:'Iman dan ilmu mengangkat derajat. Belajar adalah ibadah dan literasi Islam menuntut sikap kritis serta amal.',
+Q:{m:[{q:'Rani rajin membaca buku Islami. Menurut Q.S. Al-Mujadilah: 11, siapa yang diangkat derajatnya oleh Allah?',o:['Orang yang banyak membaca saja','Orang yang beriman dan berilmu','Orang yang paling kaya','Orang yang paling banyak bicara']},{q:'Temanmu mengirim video “ilmu agama” tanpa sumber jelas. Sikap yang sesuai literasi Islam adalah...',o:['Langsung membagikannya agar viral','Mengabaikan semua ilmu dari internet','Memeriksa sumber dan kebenarannya dulu, baru memutuskan membagikan','Menghapus semua media sosial']}],u:['Jelaskan hubungan iman, ilmu, dan derajat menurut Q.S. Al-Mujadilah: 11, lalu beri satu contoh penerapannya di sekolah.']}},
+{e:'⏳',t:'Meyakini Hari Akhir',tj:['Membedakan kiamat sugra dan kubra','Menyebutkan tahapan kehidupan akhirat','Menunjukkan perilaku yang lahir dari iman kepada hari akhir'],pk:['Kiamat sugra','Kiamat kubra','Barzakh','Mahsyar, hisab, mizan, sirat','Surga atau neraka'],
+ms:['Iman kepada hari akhir adalah rukun iman kelima.','Kiamat sugra: kerusakan atau kematian yang bersifat khusus, seperti wafatnya seseorang dan bencana lokal. Kiamat kubra: hancurnya seluruh alam setelah tiupan sangkakala Malaikat Israfil.','Tanda kecil: ilmu dicabut dan amanah disia-siakan. Tanda besar: Dajjal, turunnya Nabi Isa a.s., Ya’juj dan Ma’juj, matahari terbit dari barat.','Tahapan akhirat: alam barzakh, kebangkitan, mahsyar, hisab, mizan, sirat, lalu surga atau neraka.','Pengaruh iman: jujur, bertanggung jawab, tidak putus asa, dan tidak menzalimi orang lain.'],
+dl:[{r:'فَمَنْ يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ ۝ وَمَنْ يَعْمَلْ مِثْقَالَ ذَرَّةٍ شَرًّا يَرَهُ',i:'Siapa mengerjakan kebaikan seberat zarah, dia akan melihat balasannya. Siapa mengerjakan kejahatan seberat zarah, dia akan melihat balasannya. (Q.S. Az-Zalzalah: 7-8)'}],
+ct:'Mengerjakan ujian dengan jujur karena yakin setiap perbuatan dicatat dan dihisab.',rg:'Kiamat terdiri atas sugra dan kubra. Setiap manusia melalui tahapan akhirat dan menerima balasan yang adil.',
+Q:{m:[{q:'Gempa menghancurkan satu kota dan banyak korban meninggal. Peristiwa ini tergolong...',o:['Kiamat kubra','Kiamat sugra','Hisab','Mizan']},{q:'Dina tidak mencontek walau tidak ada pengawas karena yakin amalnya dicatat dan dihisab. Ini pengaruh iman kepada...',o:['Hari akhir','Qada dan qadar','Malaikat saja','Rasul']}],u:['Analisis mengapa orang yang yakin pada hari akhir cenderung jujur. Beri dua contoh perilakunya.']}},
+{e:'🤝',t:'Etika Pergaulan dan Komunikasi Islami',tj:['Menerapkan adab pergaulan','Menghindari gibah dan fitnah','Menerapkan tabayyun dalam komunikasi digital'],pk:['Adab pergaulan','Komunikasi digital','Gibah dan fitnah','Tabayyun','Ukhuwah'],
+ms:['Adab pergaulan: menghormati yang tua, menyayangi yang muda, berkata baik, menjaga rahasia, dan menepati janji.','Komunikasi digital: pikir sebelum mengirim. Jejak digital sulit dihapus. Jangan menyebar hoaks, ujaran kebencian, atau aib orang.','Gibah: membicarakan keburukan orang yang benar adanya. Fitnah: menuduh hal yang tidak benar. Keduanya merusak persaudaraan.','Tabayyun: cek sumber, tanya pihak terkait, bandingkan informasi, lalu putuskan.','Ukhuwah: persaudaraan sesama muslim (islamiyah), sebangsa (wathaniyah), dan sesama manusia (basyariyah).'],
+dl:[{r:'يَا أَيُّهَا الَّذِينَ آمَنُوا إِن جَاءَكُمْ فَاسِقٌ بِنَبَإٍ فَتَبَيَّنُوا',i:'Wahai orang-orang beriman, jika datang kepadamu orang fasik membawa berita, periksalah dengan teliti. (Q.S. Al-Hujurat: 6)'}],
+ct:'Menahan diri meneruskan pesan berantai sebelum mengecek sumbernya.',rg:'Jaga lisan dan jari. Tabayyun melindungi dari hoaks, gibah, dan fitnah serta menjaga ukhuwah.',
+Q:{m:[{q:'Grup kelas ramai kabar “guru X korupsi” tanpa bukti. Langkah pertama sesuai Q.S. Al-Hujurat: 6 adalah...',o:['Menyebarkannya ke grup lain','Berkomentar marah di grup','Memeriksa kebenarannya (tabayyun)','Keluar grup tanpa berbuat apa pun']},{q:'Menceritakan keburukan teman yang benar adanya di belakangnya disebut...',o:['Fitnah','Gibah','Tabayyun','Ukhuwah']}],u:['Kamu menerima pesan berantai berisi kabar buruk tentang temanmu. Tuliskan langkah tabayyun yang kamu lakukan.']}},
+{e:'🐑',t:'Akikah dan Kurban',tj:['Memahami hukum dan dalil akikah dan kurban','Menjelaskan ketentuan hewan, waktu, dan tata cara','Menghayati nilai sosialnya'],pk:['Akikah','Kurban','Ketentuan hewan','Penyembelihan','Pembagian dan nilai sosial'],
+ms:['Akikah: menyembelih hewan sebagai syukur atas kelahiran anak, sunnah muakkadah. Anak laki-laki dua kambing sepadan, anak perempuan satu kambing, waktu utama hari ketujuh. Dagingnya dibagikan dalam keadaan matang.','Kurban: ibadah menyembelih hewan pada Iduladha, sunnah muakkadah bagi yang mampu.','Hewan: unta, sapi, kambing, atau domba; cukup umur, sehat, tidak cacat jelas (buta sebelah, sangat kurus, pincang parah, sakit parah).','Waktu kurban: setelah salat Iduladha sampai akhir hari tasyrik (13 Zulhijah).','Tata cara: membaca basmalah dan takbir, menghadap kiblat, pisau tajam, memotong saluran napas, saluran makan, dan dua urat leher.','Daging dibagikan kepada yang berkurban, kerabat, dan fakir miskin. Nilai sosial: berbagi, empati, dan kebersamaan.'],
+dl:[{r:'فَصَلِّ لِرَبِّكَ وَانْحَرْ',i:'Maka laksanakanlah salat karena Tuhanmu dan berkurbanlah. (Q.S. Al-Kautsar: 2)'}],
+ct:'Panitia sekolah membagikan daging kurban merata kepada tetangga yang kurang mampu.',rg:'Akikah dan kurban adalah ibadah syukur dan ketaatan yang menumbuhkan kepedulian sosial.',
+Q:{m:[{q:'Panitia menyembelih kurban sebelum salat Iduladha agar cepat selesai. Waktu yang sah menurut ketentuan adalah...',o:['Setelah salat Iduladha sampai akhir hari tasyrik','Sebelum salat Iduladha','Hanya malam 10 Zulhijah','Kapan saja sepanjang tahun']},{q:'Keluarga Andi dikaruniai anak laki-laki. Hewan akikah yang sesuai sunnah adalah...',o:['Satu kambing','Dua kambing yang sepadan','Tiga kambing','Tidak ada ketentuan']}],u:['Sekolah ingin membagikan daging kurban kepada warga kurang mampu. Jelaskan nilai sosial kurban yang tercapai.']}},
+{e:'🕌',t:'Islam di Nusantara dan Daulah Usmani',tj:['Menjelaskan sejarah Daulah Usmani dan Muhammad Al-Fatih','Menganalisis teori masuknya Islam ke Nusantara','Meneladani strategi dakwah Wali Songo'],pk:['Daulah Usmani','Al-Fatih','Teori masuknya Islam','Wali Songo'],
+ms:['Daulah Usmani didirikan Utsman bin Ertugrul sekitar 1299 M dan menjadi kekuatan besar di tiga benua.','Muhammad Al-Fatih menaklukkan Konstantinopel pada 1453 M setelah persiapan matang: pasukan terlatih, meriam besar, dan strategi laut.','Teori masuknya Islam ke Nusantara: Gujarat, Mekkah, Persia, dan Cina. Para sejarawan memperdebatkannya berdasarkan bukti makam, catatan pelancong, dan jalur dagang.','Wali Songo berdakwah secara damai lewat perdagangan, pendidikan, pernikahan, serta seni seperti wayang dan tembang.'],
+dl:[{r:'لَتُفْتَحَنَّ الْقُسْطَنْطِينِيَّةُ فَلَنِعْمَ الْأَمِيرُ أَمِيرُهَا وَلَنِعْمَ الْجَيْشُ ذَلِكَ الْجَيْشُ',i:'Konstantinopel pasti akan ditaklukkan. Sebaik-baik pemimpin adalah pemimpinnya dan sebaik-baik pasukan adalah pasukan itu. (H.R. Ahmad)'}],
+ct:'Mengenalkan Islam lewat karya seni dan akhlak baik di lingkungan sendiri.',rg:'Sejarah Usmani dan Wali Songo mengajarkan kerja keras, strategi, dan dakwah damai.',
+Q:{m:[{q:'Konstantinopel ditaklukkan Sultan Muhammad Al-Fatih pada tahun...',o:['1258 M','1492 M','1453 M','1299 M']},{q:'Sunan Kalijaga berdakwah lewat wayang dan tembang. Pendekatan ini menunjukkan dakwah yang...',o:['Memaksa masyarakat meninggalkan budaya','Menyesuaikan budaya setempat secara damai','Menghindari seni','Hanya lewat perang']}],u:['Bandingkan strategi dakwah Wali Songo dengan semangat Al-Fatih. Teladan apa yang bisa kamu ambil?']}}
+];
+render();if(S)load().then(()=>{if(page==='home')V.home()});
+</script></body></html>
