@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Modul PAI Kelas 9</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fbf6ea;--cd:#fff;--ink:#0f1f3d;--mut:#5b6578;--hd:#0f1f3d;--ac:#0f1f3d;--em:#0f7a5a;--gd:#c9a227;--ln:#e6dcc3}
 :root[data-t=dark]{--bg:#0a1429;--cd:#12213f;--ink:#eef0f5;--mut:#a3adc2;--hd:#0d1a33;--ac:#e3c55a;--ln:#243459}
@@ -31,6 +31,34 @@ input,select,textarea{width:100%;min-height:48px;margin:6px 0;padding:10px 12px;
 .p1{background:linear-gradient(#e3c55a,#c9a227)}.p2{background:linear-gradient(#e8ecf2,#aeb6c4)}.p3{background:linear-gradient(#e0a878,#b8733c)}
 .rk{margin:0;padding:8px 10px;border-bottom:1px solid var(--ln)}.rk.me{background:#c9a22722;border-radius:8px}
 #toast{position:fixed;left:12px;right:12px;bottom:16px;z-index:9;padding:12px;border-radius:12px;background:var(--hd);color:#fff;border:1px solid var(--gd);text-align:center}
+/* Tema: Mihrab dan rantai berlian */
+:root{--bg:#f1ead6;--cd:#fbf8ee;--ink:#10213f;--mut:#5f6b82;--hd:#0a1a35;--ac:#0b3a5b;--em:#0e7c5c;--gd:#b8921c;--ln:#dccfa8}
+:root[data-t=dark]{--bg:#081326;--cd:#0f1f3a;--ink:#edf0f6;--mut:#9aa8c2;--hd:#07111f;--ac:#e6c961;--em:#14966f;--gd:#d4af37;--ln:#1e3355}
+h1,h2,h3,.br{font-family:'Reem Kufi',Cairo,sans-serif;font-weight:700}
+:focus-visible{outline:3px solid var(--gd);outline-offset:2px}
+header{background:var(--hd);border-bottom:2px solid var(--gd)}
+header::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:6px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='6'%3E%3Cpath d='M7 0l6 3-6 3-6-3z' fill='%23d4af37'/%3E%3C/svg%3E") repeat-x}
+.br{color:var(--gd);font-size:1.25rem}
+.ic{border-radius:10px;border-color:var(--gd);color:var(--gd)}
+nav{position:absolute;top:100%;left:10px;right:10px;margin-top:10px;width:auto;background:var(--hd);border:1px solid var(--gd);border-radius:12px;overflow:hidden}
+nav a{padding:14px 18px}
+@media(min-width:800px){nav{position:static;margin:0;border:0;background:none;overflow:visible}}
+.c{border-radius:10px}
+.hero{position:relative;margin:22px 6px 28px;padding:64px 18px 22px;border:1px solid var(--gd);border-radius:50% 50% 12px 12px/150px 150px 12px 12px;box-shadow:0 0 0 5px var(--bg),0 0 0 6px var(--gd);animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.hero::before{content:"";position:absolute;inset:10px;border:1px solid var(--ln);border-radius:50% 50% 6px 6px/140px 140px 6px 6px;pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.97)}}
+.c:not(.hero) .ar{padding:14px 16px;border:1px solid var(--ln);border-right:4px solid var(--gd);border-radius:8px;background:color-mix(in srgb,var(--gd) 8%,transparent)}
+#app>h2{display:flex;align-items:center;gap:12px;margin:30px 0 4px;font-size:1.5rem}
+#app>h2::before,#app>h2::after{content:"";flex:1;height:1px;background:var(--gd)}
+.b{border-radius:10px;transition:filter .15s}.b:hover{filter:brightness(1.1)}.b:active{transform:translateY(1px)}
+.b.g{background:var(--gd);color:#1a1400}.b.o{border-color:var(--gd)}
+input,select,textarea{border-radius:10px}input:focus,select:focus,textarea:focus{border-color:var(--gd)}
+.opt{border-radius:10px;cursor:pointer}.opt input{accent-color:var(--em)}
+.opt:has(input:checked){border-color:var(--em);border-inline-start:5px solid var(--em);background:color-mix(in srgb,var(--em) 12%,transparent)}
+.pg{height:8px}.chip{border-radius:6px;background:none;border:1px solid var(--gd)}
+.pb{border-radius:8px 8px 0 0;font-weight:700}.rk{display:flex;justify-content:space-between;gap:8px}
+.d.on{box-shadow:0 0 0 4px #22c55e33}#toast{border-radius:10px}
+@media(prefers-reduced-motion:reduce){.hero{animation:none}}
 </style></head><body>
 <header><b class="br">☪ PAI Kelas 9</b><button class="ic" onclick="th()" aria-label="Ganti tema">◐</button><button class="ic" onclick="$('#nav').classList.toggle('open')" aria-label="Menu">☰</button><nav id="nav"></nav></header>
 <main id="app"></main><div id="toast" hidden></div>
