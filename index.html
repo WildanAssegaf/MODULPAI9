@@ -38,7 +38,7 @@ input,select,textarea{width:100%;min-height:48px;margin:6px 0;padding:10px 12px;
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-const API='GANTI_DENGAN_URL_WEB_APP';
+const API='https://script.google.com/macros/s/AKfycbymfbVbA6-PcOOyH3RliA0fp_DvaGdc5m5aECYqcIyu-SXZ5b3DnOrK7IDur1QZw15CXw/exec';
 const FB={apiKey:'AIzaSyAiNCKLr-wDEpPep3ZvZsIvI8CbpfpN6Ps',authDomain:'modulpai9.firebaseapp.com',databaseURL:'https://modulpai9-default-rtdb.asia-southeast1.firebasedatabase.app/',projectId:'modulpai9',appId:'1:6248809318:web:b97ad3b2dfee2857a0fea7'};
 const TS={'.sv':'timestamp'};let DB=null,AU=Promise.resolve(),OFF=0,PR={},pref=null,lis=0,gOn=0;
 try{firebase.initializeApp(FB);DB=firebase.database();AU=firebase.auth().signInAnonymously();DB.ref('.info/serverTimeOffset').on('value',s=>OFF=s.val()||0)}catch(e){DB=null}
