@@ -59,7 +59,6 @@ input,select,textarea{border-radius:10px}input:focus,select:focus,textarea:focus
 .pb{border-radius:8px 8px 0 0;font-weight:700}.rk{display:flex;justify-content:space-between;gap:8px}
 .d.on{box-shadow:0 0 0 4px #22c55e33}#toast{border-radius:10px}
 @media(prefers-reduced-motion:reduce){.hero{animation:none}}
-<<<<<<< HEAD
 /* Tema Adem: tosca dan langit */
 :root{--bg:#e9f6f6;--bg2:#e8eefc;--cd:#fff;--ink:#12325b;--mut:#5d7392;--ac:#0f6f8f;--ln:#d3e6ea;--g1:#0d8a7a;--g2:#2563eb}
 :root[data-t=dark]{--bg:#0b1730;--bg2:#0f2347;--cd:#132b52;--ink:#eaf2ff;--mut:#9db4d8;--ac:#7dd3fc;--ln:#24406f;--g1:#0f766e;--g2:#1d4ed8}
@@ -93,8 +92,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--g2)}
 .c:not(.hero) .ar{border:0;border-radius:18px;background:linear-gradient(135deg,color-mix(in srgb,var(--g1) 12%,transparent),color-mix(in srgb,var(--g2) 12%,transparent))}
 .pb{border-radius:16px 16px 0 0}.rk{margin:6px 0;border:0;border-radius:16px;background:color-mix(in srgb,var(--g2) 8%,transparent)}.rk.me{background:#ffd97866}
 .bd{border-radius:99px;background:linear-gradient(135deg,#ffd978,#f2a93b)}
-=======
->>>>>>> a0a4c5d9240e9a56e126ceaeacb8beef6ef2eecf
 </style></head><body>
 <header><b class="br">🌙 PAI Kelas 9</b><button class="ic" onclick="th()" aria-label="Ganti tema">◐</button><button class="ic" onclick="$('#nav').classList.toggle('open')" aria-label="Menu">☰</button><nav id="nav"></nav></header>
 <main id="app"></main><div id="toast" hidden></div>
@@ -128,11 +125,7 @@ function out(f){if(pref){pref.child('sid').off();DB.ref('.info/connected').off()
 const P=n=>ST.prog[n]||{},LV=x=>Math.floor(x/30)+1;
 const RB=[1,2,3,4,5,6,7,8,9,10],pct=()=>Math.round(RB.reduce((a,n)=>a+(P(n).m?1:0)+(P(n).l?1:0),0)*5);
 const BD=[[10,'Langkah Awal'],[100,'Pelajar Rajin'],[200,'Penuntut Ilmu'],[300,'Khatam Modul']];
-<<<<<<< HEAD
 const NAV=[['home','🕌 Beranda'],['materi','📖 Materi'],['latihan','✏️ Latihan Soal'],['progres','🏆 Progres Belajar'],['guru','🎓 Laman Guru']];
-=======
-const NAV=[['home','Beranda'],['materi','Materi'],['latihan','Latihan Soal'],['progres','Progres Belajar'],['guru','Laman Guru']];
->>>>>>> a0a4c5d9240e9a56e126ceaeacb8beef6ef2eecf
 function go(p,b){page=p;bab=b||0;render();scrollTo(0,0);hb(1);pres()}
 function hb(ev){if(S)api('hb',{bab,page,ev}).then(r=>r.kicked&&forceOut()).catch(()=>{})}
 setInterval(()=>{if(pref)pref.update({t:TS})},30000);
@@ -162,13 +155,8 @@ const fkun=(q,k)=>q.t==='jd'?k.map((v,j)=>`${j+1}-${L(v)}`).join(', '):Array.isA
 const V={
 login(){$('#app').innerHTML=`<div class="c hero"><div class="ar">بِسْمِ اللَّهِ</div><h1>Modul PAI Kelas 9</h1></div><div class="c"><input id="ln" placeholder="Nama lengkap" autocomplete="name"><input id="la" type="number" min="1" placeholder="Nomor absen"><select id="lk">${opts()}</select><button class="b" onclick="doLogin()">Masuk</button><button class="b o" onclick="go('guru')">Laman Guru</button></div>`},
 async home(){await load();const x=pct(),nx=RB.map(n=>!P(n).m?['materi',n]:!P(n).l?['latihan',n]:0).find(Boolean);
-<<<<<<< HEAD
  $('#app').innerHTML=`<div class="c hero"><div class="ar">السَّلَامُ عَلَيْكُمْ</div><h2>Halo, ${esc(S.nama)}!</h2><div class="st"><div>⭐<br>${ST.xp}<small>XP</small></div><div>🌙<br>${LV(ST.xp)}<small>Level</small></div><div>📖<br>${x}%<small>Progres</small></div></div>${bar(x)}${nx?`<button class="b g" onclick="go('${nx[0]==='materi'?'bab':'quiz'}',${nx[1]})">Lanjutkan Bab ${nx[1]}</button>`:'<p class="ok">Semua bab selesai. Barakallah!</p>'}</div>${podium()}`},
 materi(){$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Bab ${i+1}</b><h3>${c.t}</h3><p class="${P(i+1).m?'ok':'mut'}">${P(i+1).m?'Selesai ✓':'Belum selesai'}</p><button class="b" onclick="go('bab',${i+1})">Buka materi</button></div>`).join('')},
-=======
- $('#app').innerHTML=`<div class="c hero"><div class="ar">السَّلَامُ عَلَيْكُمْ</div><h2>${esc(S.nama)}</h2><p>Level ${LV(ST.xp)} · ${ST.xp} XP</p>${bar(x)}<p class="mut">Progres ${x}%</p>${nx?`<button class="b g" onclick="go('${nx[0]==='materi'?'bab':'quiz'}',${nx[1]})">Lanjutkan Bab ${nx[1]}</button>`:'<p class="ok">Semua bab selesai. Barakallah!</p>'}</div>${podium()}`},
-materi(){$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span style="font-size:2rem">${c.e}</span> <b>Bab ${i+1}</b><h3>${c.t}</h3><p class="${P(i+1).m?'ok':'mut'}">${P(i+1).m?'Selesai ✓':'Belum selesai'}</p><button class="b" onclick="go('bab',${i+1})">Buka materi</button></div>`).join('')},
->>>>>>> a0a4c5d9240e9a56e126ceaeacb8beef6ef2eecf
 bab(){const c=CH[bab-1];$('#app').innerHTML=`<div class="c hero"><div style="font-size:2.4rem">${c.e}</div><h2>Bab ${bab}. ${c.t}</h2></div>
 <div class="c"><h3>Tujuan pembelajaran</h3>${c.tj.map(x=>`<p>• ${x}</p>`).join('')}</div>
 <div class="c"><h3>Peta konsep</h3>${c.pk.map(x=>`<span class="chip">${x}</span>`).join(' ➜ ')}</div>
@@ -176,15 +164,9 @@ bab(){const c=CH[bab-1];$('#app').innerHTML=`<div class="c hero"><div style="fon
 <div class="c"><h3>Dalil dan terjemahan</h3>${c.dl.map(d=>`<div class="ar">${d.r}</div><p><i>${d.i}</i></p>`).join('')}</div>
 <div class="c"><h3>Contoh penerapan</h3><p>${c.ct}</p></div><div class="c"><h3>Rangkuman</h3><p>${c.rg}</p>
 ${P(bab).m?'<p class="ok">Bab ini sudah selesai ✓</p>':`<button class="b g" onclick="fin(${bab})">Selesai belajar (+10 XP)</button>`}</div>`},
-<<<<<<< HEAD
 latihan(){$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Latihan Bab ${i+1}</b><p>${c.t}</p><p class="${P(i+1).l?'ok':'mut'}">${P(i+1).l?'Nilai pilihan ganda: '+P(i+1).n:'Belum dikerjakan'}</p><button class="b" onclick="go('quiz',${i+1})">${P(i+1).l?'Lihat status':'Mulai latihan'}</button></div>`).join('')},
 async quiz(){const c=CH[bab-1];await BKP;if(!P(bab).l&&NEED[bab]&&!BK[bab])return $('#app').innerHTML='<div class="c"><p class="no">Bank soal belum termuat. Pastikan bank-soal.html ada di folder yang sama dengan index.html.</p></div>';if(P(bab).l)return $('#app').innerHTML=`<div class="c"><h3>Latihan Bab ${bab}</h3><p class="ok">Sudah dikerjakan. Nilai pilihan ganda: ${P(bab).n}. Jawaban uraian sudah dikirim ke guru.</p><button class="b o" onclick="go('latihan')">Kembali</button></div>`;
  $('#app').innerHTML=`<h2>Latihan Bab ${bab}</h2>${qs().map(qh).join('')}
-=======
-latihan(){$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><b>Latihan Bab ${i+1}</b><p>${c.t}</p><p class="${P(i+1).l?'ok':'mut'}">${P(i+1).l?'Nilai pilihan ganda: '+P(i+1).n:'Belum dikerjakan'}</p><button class="b" onclick="go('quiz',${i+1})">${P(i+1).l?'Lihat status':'Mulai latihan'}</button></div>`).join('')},
-quiz(){const c=CH[bab-1];if(P(bab).l)return $('#app').innerHTML=`<div class="c"><h3>Latihan Bab ${bab}</h3><p class="ok">Sudah dikerjakan. Nilai pilihan ganda: ${P(bab).n}. Jawaban uraian sudah dikirim ke guru.</p><button class="b o" onclick="go('latihan')">Kembali</button></div>`;
- $('#app').innerHTML=`<h2>Latihan Bab ${bab}</h2>${c.Q.m.map((q,i)=>`<div class="c"><b>${i+1}. ${q.q}</b>${q.o.map((o,j)=>`<label class="opt"><input type="radio" name="m${i}" value="${j}"><span>${'ABCD'[j]}. ${o}</span></label>`).join('')}</div>`).join('')}
->>>>>>> a0a4c5d9240e9a56e126ceaeacb8beef6ef2eecf
 ${c.Q.u.map((q,i)=>`<div class="c"><b>Uraian ${i+1}. ${q}</b><textarea id="u${i}" rows="4" placeholder="Tulis jawabanmu"></textarea></div>`).join('')}<button class="b g" onclick="sendQ()">Kirim jawaban (+20 XP)</button>`},
 async progres(){await load();$('#app').innerHTML=`<div class="c hero"><h2>Level ${LV(ST.xp)}</h2><p>${ST.xp} XP · ${pct()}%</p>${bar(pct())}</div><div class="c"><h3>Badge</h3>${BD.map(b=>`<span class="bd ${ST.xp>=b[0]?'':'x'}">${b[1]}</span>`).join('')}</div>
 ${CH.map((c,i)=>`<div class="c"><b>Bab ${i+1}</b><br>Materi: ${P(i+1).m?'✓':'-'} · Latihan: ${P(i+1).l?'✓ nilai '+P(i+1).n:'-'}</div>`).join('')}
@@ -265,9 +247,7 @@ dl:[{r:'قَدْ خَلَتْ مِن قَبْلِكُمْ سُنَنٌ فَسِ�
 ct:'Mempelajari sejarah untuk meneladani semangat ilmu, seni, dan toleransi.',rg:'Safawi dan Mughal menunjukkan kemajuan seni, arsitektur, dan tata negara yang bisa diteladani.',
 Q:{m:[{q:'Taj Mahal dibangun pada masa Dinasti...',o:['Safawi','Mughal','Usmani','Abbasiyah']},{q:'Kebijakan Akbar yang menghormati berbagai agama di India menunjukkan...',o:['Pemaksaan keyakinan','Penutupan perdagangan','Penolakan ilmu pengetahuan','Toleransi yang mendukung stabilitas dan kemajuan']}],u:['Bandingkan satu kemajuan Dinasti Safawi dan Mughal, lalu tulis pelajaran yang bisa diteladani generasi muda.']}}
 ];
-
 const IC={'Tujuan pembelajaran':'🎯','Peta konsep':'🗺️','Materi':'📖','Dalil dan terjemahan':'🕋','Contoh penerapan':'💡','Rangkuman':'⭐','Badge':'🏅','Leaderboard':'🏆','Podium XP':'🏆'};
 new MutationObserver(()=>document.querySelectorAll('#app h3').forEach(h=>{const k=IC[h.textContent];if(k)h.textContent=k+' '+h.textContent})).observe($('#app'),{childList:true});
-a0a4c5d9240e9a56e126ceaeacb8beef6ef2eecf
 render();pres();if(S)load().then(()=>{if(page==='home')V.home()});
 </script></body></html>
