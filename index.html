@@ -92,9 +92,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--g2)}
 .c:not(.hero) .ar{border:0;border-radius:18px;background:linear-gradient(135deg,color-mix(in srgb,var(--g1) 12%,transparent),color-mix(in srgb,var(--g2) 12%,transparent))}
 .pb{border-radius:16px 16px 0 0}.rk{margin:6px 0;border:0;border-radius:16px;background:color-mix(in srgb,var(--g2) 8%,transparent)}.rk.me{background:#ffd97866}
 .bd{border-radius:99px;background:linear-gradient(135deg,#ffd978,#f2a93b)}
+#md{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:14px;background:#000a}#md[hidden]{display:none}
+#md>div{width:100%;max-width:420px;max-height:90vh;overflow:auto;padding:20px;border-radius:24px;background:var(--cd)}
+.tb{width:100%;border-collapse:collapse;font-size:.92rem}.tb th{text-align:left;padding:4px;font-size:.78rem;color:var(--mut)}
+.tb td{padding:10px 4px;border-top:1px solid var(--ln);overflow-wrap:anywhere}.tb td:nth-child(1){width:20px}.tb td:nth-child(n+3){width:42px}
+.tb tr.r{cursor:pointer}.tb tr.r:active{background:color-mix(in srgb,var(--g2) 12%,transparent)}
+.kc{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.kc span{padding:4px 12px;border-radius:99px;background:linear-gradient(135deg,#c9f2ec,#d6e6ff);color:#12325b;font-weight:600;font-size:.9rem}
 </style></head><body>
 <header><b class="br">🌙 PAI Kelas 9</b><button class="ic" onclick="th()" aria-label="Ganti tema">◐</button><button class="ic" onclick="$('#nav').classList.toggle('open')" aria-label="Menu">☰</button><nav id="nav"></nav></header>
-<main id="app"></main><div id="toast" hidden></div>
+<main id="app"></main><div id="md" hidden></div><div id="toast" hidden></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -115,14 +121,14 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const lsg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lss=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
 document.documentElement.dataset.t=lsg('t')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
 function th(){const r=document.documentElement,n=r.dataset.t==='dark'?'light':'dark';r.dataset.t=n;lss('t',n)}
-let S=JSON.parse(lsg('sess')||'null'),ST={xp:0,prog:{},lb:[]},T=null,tab='s',fk='',page='home',bab=0,GL=[],GU=[];
+let S=JSON.parse(lsg('sess')||'null'),ST={xp:0,prog:{},lb:[]},T=null,tab='s',fk='',page='home',bab=0,GL=[],GU=[],KN={};
 const toast=m=>{const t=$('#toast');t.textContent=m;t.hidden=false;setTimeout(()=>t.hidden=true,2800)};
 const api=(a,d)=>fetch(API,{method:'POST',body:JSON.stringify({a,id:S&&S.id,sid:S&&S.sid,...d})}).then(r=>r.json());
 async function call(a,d){try{const r=await api(a,d);if(r.kicked){forceOut();return null}if(!r.ok){toast(r.err||'Gagal');return null}return r}catch(e){toast('Koneksi gagal, coba lagi');return null}}
 function forceOut(){toast('Akun dipakai di perangkat lain. Silakan masuk lagi.');out(1)}
 function out(f){if(pref){pref.child('sid').off();DB.ref('.info/connected').off();if(!f)pref.update({on:false,t:TS});pref.onDisconnect().cancel();pref=null;lis=0}
  S=null;lss('sess',null);page='home';render()}
-const P=n=>ST.prog[n]||{},LV=x=>Math.floor(x/30)+1;
+const LK=n=>(ST.lock||[]).includes(n),P=n=>ST.prog[n]||{},LV=x=>Math.floor(x/30)+1;
 const RB=[1,2,3,4,5,6,7,8,9,10],pct=()=>Math.round(RB.reduce((a,n)=>a+(P(n).m?1:0)+(P(n).l?1:0),0)*5);
 const BD=[[10,'Langkah Awal'],[100,'Pelajar Rajin'],[200,'Penuntut Ilmu'],[300,'Khatam Modul']];
 const NAV=[['home','🕌 Beranda'],['materi','📖 Materi'],['latihan','✏️ Latihan Soal'],['progres','🏆 Progres Belajar'],['guru','🎓 Laman Guru']];
@@ -140,6 +146,7 @@ const podium=()=>{const L=ST.lb||[],H=[84,110,64],O=[1,0,2],M=['🥈','🥇','�
 const bar=p=>`<div class="pg"><i style="width:${p}%"></i></div>`;
 
 let BK={};const BKP=fetch('bank-soal.html').then(r=>r.text()).then(t=>{BK=JSON.parse(new DOMParser().parseFromString(t,'text/html').getElementById('bank').textContent)}).catch(()=>{});
+const lockMsg=()=>{$('#app').innerHTML=`<div class="c"><h3>🔒 Bab dikunci</h3><p>Bab ini belum dibuka oleh guru.</p><button class="b o" onclick="go('materi')">Kembali</button></div>`};
 const NEED={1:40,2:40,3:10,4:10,5:10},qs=()=>BK[bab]||CH[bab-1].Q.m,L=k=>'ABCDE'[k];
 const SA=['Pernyataan benar, alasan benar, dan keduanya berhubungan sebab-akibat','Pernyataan benar, alasan benar, tetapi tidak berhubungan sebab-akibat','Pernyataan benar, alasan salah','Pernyataan salah, alasan benar','Pernyataan dan alasan keduanya salah'];
 const rd=(i,o)=>o.map((x,j)=>`<label class="opt"><input type="radio" name="m${i}" value="${j}"><span>${L(j)}. ${x}</span></label>`).join('');
@@ -156,43 +163,52 @@ const V={
 login(){$('#app').innerHTML=`<div class="c hero"><div class="ar">بِسْمِ اللَّهِ</div><h1>Modul PAI Kelas 9</h1></div><div class="c"><input id="ln" placeholder="Nama lengkap" autocomplete="name"><input id="la" type="number" min="1" placeholder="Nomor absen"><select id="lk">${opts()}</select><button class="b" onclick="doLogin()">Masuk</button><button class="b o" onclick="go('guru')">Laman Guru</button></div>`},
 async home(){await load();const x=pct(),nx=RB.map(n=>!P(n).m?['materi',n]:!P(n).l?['latihan',n]:0).find(Boolean);
  $('#app').innerHTML=`<div class="c hero"><div class="ar">السَّلَامُ عَلَيْكُمْ</div><h2>Halo, ${esc(S.nama)}!</h2><div class="st"><div>⭐<br>${ST.xp}<small>XP</small></div><div>🌙<br>${LV(ST.xp)}<small>Level</small></div><div>📖<br>${x}%<small>Progres</small></div></div>${bar(x)}${nx?`<button class="b g" onclick="go('${nx[0]==='materi'?'bab':'quiz'}',${nx[1]})">Lanjutkan Bab ${nx[1]}</button>`:'<p class="ok">Semua bab selesai. Barakallah!</p>'}</div>${podium()}`},
-materi(){$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Bab ${i+1}</b><h3>${c.t}</h3><p class="${P(i+1).m?'ok':'mut'}">${P(i+1).m?'Selesai ✓':'Belum selesai'}</p><button class="b" onclick="go('bab',${i+1})">Buka materi</button></div>`).join('')},
-bab(){const c=CH[bab-1];$('#app').innerHTML=`<div class="c hero"><div style="font-size:2.4rem">${c.e}</div><h2>Bab ${bab}. ${c.t}</h2></div>
+async materi(){await load();$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Bab ${i+1}</b><h3>${c.t}</h3><p class="${P(i+1).m?'ok':'mut'}">${P(i+1).m?'Selesai ✓':'Belum selesai'}</p>${LK(i+1)?'<button class="b o" disabled>🔒 Dikunci guru</button>':`<button class="b" onclick="go('bab',${i+1})">Buka materi</button>`}</div>`).join('')},
+bab(){const c=CH[bab-1];if(LK(bab))return lockMsg();$('#app').innerHTML=`<div class="c hero"><div style="font-size:2.4rem">${c.e}</div><h2>Bab ${bab}. ${c.t}</h2></div>
 <div class="c"><h3>Tujuan pembelajaran</h3>${c.tj.map(x=>`<p>• ${x}</p>`).join('')}</div>
 <div class="c"><h3>Peta konsep</h3>${c.pk.map(x=>`<span class="chip">${x}</span>`).join(' ➜ ')}</div>
 <div class="c"><h3>Materi</h3>${c.ms.map(x=>`<p>${x}</p>`).join('')}</div>
 <div class="c"><h3>Dalil dan terjemahan</h3>${c.dl.map(d=>`<div class="ar">${d.r}</div><p><i>${d.i}</i></p>`).join('')}</div>
 <div class="c"><h3>Contoh penerapan</h3><p>${c.ct}</p></div><div class="c"><h3>Rangkuman</h3><p>${c.rg}</p>
 ${P(bab).m?'<p class="ok">Bab ini sudah selesai ✓</p>':`<button class="b g" onclick="fin(${bab})">Selesai belajar (+10 XP)</button>`}</div>`},
-latihan(){$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Latihan Bab ${i+1}</b><p>${c.t}</p><p class="${P(i+1).l?'ok':'mut'}">${P(i+1).l?'Nilai pilihan ganda: '+P(i+1).n:'Belum dikerjakan'}</p><button class="b" onclick="go('quiz',${i+1})">${P(i+1).l?'Lihat status':'Mulai latihan'}</button></div>`).join('')},
-async quiz(){const c=CH[bab-1];await BKP;if(!P(bab).l&&NEED[bab]&&!BK[bab])return $('#app').innerHTML='<div class="c"><p class="no">Bank soal belum termuat. Pastikan bank-soal.html ada di folder yang sama dengan index.html.</p></div>';if(P(bab).l)return $('#app').innerHTML=`<div class="c"><h3>Latihan Bab ${bab}</h3><p class="ok">Sudah dikerjakan. Nilai pilihan ganda: ${P(bab).n}. Jawaban uraian sudah dikirim ke guru.</p><button class="b o" onclick="go('latihan')">Kembali</button></div>`;
+async latihan(){await load();$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Latihan Bab ${i+1}</b><p>${c.t}</p><p class="${P(i+1).l?'ok':'mut'}">${P(i+1).l?'Nilai pilihan ganda: '+P(i+1).n:'Belum dikerjakan'}</p>${LK(i+1)?'<button class="b o" disabled>🔒 Dikunci guru</button>':`<button class="b" onclick="go('quiz',${i+1})">${P(i+1).l?'Lihat status':'Mulai latihan'}</button>`}</div>`).join('')},
+async quiz(){const c=CH[bab-1];await BKP;if(LK(bab))return lockMsg();if(!P(bab).l&&NEED[bab]&&!BK[bab])return $('#app').innerHTML='<div class="c"><p class="no">Bank soal belum termuat. Pastikan bank-soal.html ada di folder yang sama dengan index.html.</p></div>';if(P(bab).l)return $('#app').innerHTML=`<div class="c"><h3>Latihan Bab ${bab}</h3><p class="ok">Sudah dikerjakan. Nilai pilihan ganda: ${P(bab).n}. Jawaban uraian sudah dikirim ke guru.</p><button class="b o" onclick="go('latihan')">Kembali</button></div>`;
  $('#app').innerHTML=`<h2>Latihan Bab ${bab}</h2>${qs().map(qh).join('')}
 ${c.Q.u.map((q,i)=>`<div class="c"><b>Uraian ${i+1}. ${q}</b><textarea id="u${i}" rows="4" placeholder="Tulis jawabanmu"></textarea></div>`).join('')}<button class="b g" onclick="sendQ()">Kirim jawaban (+20 XP)</button>`},
 async progres(){await load();$('#app').innerHTML=`<div class="c hero"><h2>Level ${LV(ST.xp)}</h2><p>${ST.xp} XP · ${pct()}%</p>${bar(pct())}</div><div class="c"><h3>Badge</h3>${BD.map(b=>`<span class="bd ${ST.xp>=b[0]?'':'x'}">${b[1]}</span>`).join('')}</div>
 ${CH.map((c,i)=>`<div class="c"><b>Bab ${i+1}</b><br>Materi: ${P(i+1).m?'✓':'-'} · Latihan: ${P(i+1).l?'✓ nilai '+P(i+1).n:'-'}</div>`).join('')}
 <div class="c"><h3>Leaderboard</h3>${ST.lb.map((x,i)=>`<p>${i+1}. ${esc(x.nama)} (${x.kelas}) <b>${x.xp} XP</b></p>`).join('')||'<p class="mut">Belum ada data.</p>'}</div>`},
 guru(){if(!T)return $('#app').innerHTML=`<div class="c"><h2>Laman Guru</h2><input id="gp" type="password" placeholder="Password guru"><button class="b" onclick="gLogin()">Masuk</button></div>`;
- $('#app').innerHTML=`<div class="c"><select id="gk" onchange="fk=this.value;gt()"><option value="">Semua kelas${KS.map(k=>`<option ${k===fk?'selected':''}>${k}`).join('')}</select><button class="b ${tab==='s'?'':'o'}" onclick="tab='s';gt()">Siswa dan status online</button><button class="b ${tab==='u'?'':'o'}" onclick="tab='u';gt()">Jawaban uraian</button><button class="b o" onclick="T=null;render()">Keluar guru</button></div><div id="gb"></div>`;gt()}};
+ $('#app').innerHTML=`<div class="c"><select id="gk" onchange="fk=this.value;gt()"><option value="">Semua kelas${KS.map(k=>`<option ${k===fk?'selected':''}>${k}`).join('')}</select><button class="b ${tab==='s'?'':'o'}" onclick="tab='s';gt()">Siswa dan status online</button><button class="b ${tab==='u'?'':'o'}" onclick="tab='u';gt()">Jawaban uraian</button><button class="b ${tab==='k'?'':'o'}" onclick="tab='k';gt()">🔒 Kunci dan buka bab</button><button class="b o" onclick="T=null;render()">Keluar guru</button></div><div id="gb"></div>`;gt()}};
 
 async function doLogin(){const r=await call('login',{id:0,sid:0,nama:$('#ln').value,absen:$('#la').value,kelas:$('#lk').value});if(!r)return;
  S={id:r.id,sid:r.sid,nama:r.nama,kelas:r.kelas,absen:r.absen};lss('sess',JSON.stringify(S));ST=r;go('home')}
 async function fin(n){const r=await call('finish',{bab:n});if(r){ST=r;toast(r.gain?'+'+r.gain+' XP':'Sudah tercatat');go('materi')}}
 async function sendQ(){const c=CH[bab-1],Q=qs(),mc=Q.map(ga),ur=c.Q.u.map((q,i)=>$('#u'+i).value.trim());
  if(mc.includes(-1)||ur.some(x=>!x))return toast('Jawab semua soal dulu');
- const r=await call('quiz',{bab,mc,ur});if(!r)return;ST={xp:r.xp,prog:r.prog,lb:r.lb};
+ const r=await call('quiz',{bab,mc,ur});if(!r)return;ST={xp:r.xp,prog:r.prog,lock:r.lock,lb:r.lb};
  $('#app').innerHTML=`<div class="c hero"><h2>Nilai: ${r.nilai}</h2><p>Benar ${r.benar} dari ${r.total}${r.gain?' · +'+r.gain+' XP':''}</p></div>${r.review.map((v,i)=>`<div class="c"><p class="${v.s>=1?'ok':'no'}">Soal ${i+1}: ${v.s>=1?'Benar':v.s>0?'Sebagian benar':'Salah'}. Kunci: ${fkun(Q[i],v.kunci)}</p><p>${esc(v.bahas)}</p></div>`).join('')}<div class="c"><p>Jawaban uraian dikirim ke guru untuk dinilai.</p><button class="b" onclick="go('latihan')">Selesai</button></div>`}
 
 async function gLogin(){const r=await call('tlogin',{id:0,sid:0,pw:$('#gp').value});if(r){T=r.token;render()}}
 const G=(a,d)=>call(a,{token:T,kelas:fk,id:0,sid:0,...d});
-function gt(){$('#gb').innerHTML=tab==='s'?`<div class="c"><input id="gn" placeholder="Nama siswa"><input id="ga" type="number" min="1" placeholder="Nomor absen"><select id="gc">${opts()}</select><input id="gi" type="hidden"><button class="b" onclick="gSave()">Simpan siswa</button></div><div id="gl"></div>`:'<div id="gl"></div>';tab==='s'?gl():gu()}
-async function gl(){const r=await G('tlist');if(!r)return;GL=r.s;gListen();paint()}
+function gt(){$('#gb').innerHTML=tab==='s'?`<div id="gs"></div><button class="b g" onclick="gForm()">+ Tambah siswa</button><div id="gl"></div>`:'<div id="gl"></div>';tab==='s'?gl():tab==='k'?gk():gu()}
+async function gl(){const r=await G('tlist');if(!r)return;GL=r.s;KN=r.n||{};gListen();paint()}
+const md=h=>{const m=$('#md');m.innerHTML=`<div>${h}</div>`;m.hidden=false;m.onclick=e=>{if(e.target===m)mc()}};
+const mc=()=>{$('#md').hidden=true};
+function gForm(i){const x=i>=0?GL[i]:{nama:'',absen:'',kelas:fk||'9A',id:''};
+ md(`<h3>${x.id?'Edit siswa':'Tambah siswa'}</h3><input id="gn" placeholder="Nama siswa" value="${esc(x.nama)}"><input id="ga" type="number" min="1" placeholder="Nomor absen" value="${esc(x.absen)}"><select id="gc">${opts(x.kelas)}</select><input id="gi" type="hidden" value="${esc(x.id)}"><button class="b" onclick="gSave()">Simpan</button><button class="b o" onclick="mc()">Batal</button>`)}
+function gDet(i){const x=GL[i];
+ md(`<h3>${esc(x.nama)}</h3><p>Kelas ${x.kelas} · absen ${x.absen}${x.dup?' · ⚠ sesi ganda':''}</p><p><span class="d ${x.on?'on':''}"></span> ${x.on?`Online · Bab ${x.bab||'-'} · ${esc(x.pg)}`:'Offline'+(x.seen?' · terakhir '+Math.round((Date.now()-x.seen)/60000)+' mnt lalu':'')}</p><p>XP ${x.xp}<br>Materi ${x.m}/10 · Latihan ${x.l}/10<br>Rata-rata nilai ${x.avg??'-'}</p><button class="b" onclick="gForm(${i})">Edit</button><button class="b o" onclick="gDel(${i})">Hapus</button><button class="b o" onclick="mc()">Tutup</button>`)}
 function paint(){if(!$('#gl')||tab!=='s')return;GL.forEach(x=>Object.assign(x,pq(x)));
- $('#gl').innerHTML=GL.map((x,i)=>`<div class="c"><span class="d ${x.on?'on':''}"></span> <b>${esc(x.nama)}</b> · ${x.kelas}/${x.absen}${x.dup?' · ⚠ sesi ganda':''}<br><small>${x.on?`Online · Bab ${x.bab||'-'} · ${esc(x.pg)}`:'Offline'+(x.seen?' · terakhir '+Math.round((Date.now()-x.seen)/60000)+' mnt lalu':'')}</small><br>XP ${x.xp} · Materi ${x.m}/10 · Latihan ${x.l}/10 · Rata-rata ${x.avg??'-'}<button class="b o" onclick="gEdit(${i})">Edit</button><button class="b o" onclick="gDel(${i})">Hapus</button></div>`).join('')||'<p class="mut">Belum ada siswa.</p>'}
-function gEdit(i){const x=GL[i];$('#gn').value=x.nama;$('#ga').value=x.absen;$('#gc').value=x.kelas;$('#gi').value=x.id;scrollTo(0,0)}
-async function gSave(){const r=await G('tsave',{s:{id:$('#gi').value,nama:$('#gn').value,absen:$('#ga').value,kelas:$('#gc').value}});if(r){toast('Tersimpan');gt()}}
-async function gDel(i){if(confirm('Hapus siswa '+GL[i].nama+'?')){const r=await G('tdel',{id:GL[i].id});if(r)gl()}}
+ $('#gs').innerHTML=`<div class="c"><b>Siswa terdata: ${KS.reduce((a,k)=>a+(KN[k]||0),0)}</b><div class="kc">${KS.map(k=>`<span>${k}: ${KN[k]||0}</span>`).join('')}</div></div>`;
+ $('#gl').innerHTML=GL.length?`<div class="c"><table class="tb"><tr><th></th><th>Nama</th><th>Abs</th><th>XP</th><th>Nilai</th></tr>${GL.map((x,i)=>`<tr class="r" onclick="gDet(${i})"><td><span class="d ${x.on?'on':''}"></span></td><td>${esc(x.nama)}<br><small>${x.kelas}${x.dup?' ⚠':''}</small></td><td>${x.absen}</td><td>${x.xp}</td><td>${x.avg??'-'}</td></tr>`).join('')}</table></div>`:'<p class="mut">Belum ada siswa.</p>'}
+async function gSave(){const r=await G('tsave',{s:{id:$('#gi').value,nama:$('#gn').value,absen:$('#ga').value,kelas:$('#gc').value}});if(r){toast('Tersimpan');mc();gl()}}
+async function gDel(i){if(confirm('Hapus siswa '+GL[i].nama+'?')){const r=await G('tdel',{id:GL[i].id});if(r){mc();gl()}}}
 async function gu(){const r=await G('turaian');if(!r)return;GU=r.u;
  $('#gl').innerHTML=GU.map((x,i)=>`<div class="c"><b>${esc(x.nama)}</b> · ${x.kelas} · Bab ${x.bab} No ${+x.no+1}<p class="mut">${CH[x.bab-1].Q.u[x.no]}</p><p>${esc(x.jawaban)}</p><input id="n${i}" type="number" min="0" max="100" placeholder="Nilai 0-100" value="${esc(x.nilai)}"><input id="k${i}" placeholder="Komentar" value="${esc(x.komentar)}"><button class="b" onclick="gNilai(${i})">Simpan nilai</button></div>`).join('')||'<p class="mut">Belum ada jawaban.</p>'}
+async function gk(){const r=await G('tlocks');if(r)gkr(r.lock)}
+function gkr(lk){$('#gl').innerHTML=CH.map((c,i)=>{const n=i+1,x=lk.includes(n);return `${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Bab ${n}</b> ${x?'🔒 Dikunci':'🔓 Terbuka'}<p class="mut">${c.t}</p><button class="b ${x?'':'o'}" onclick="gLock(${n},${!x})">${x?'Buka bab ini':'Kunci bab ini'}</button></div>`}).join('')}
+async function gLock(n,on){const r=await G('tlock',{bab:n,on});if(r){gkr(r.lock);toast('Bab '+n+(on?' dikunci':' dibuka'))}}
 async function gNilai(i){const r=await G('tnilai',{key:GU[i].key,nilai:$('#n'+i).value,komentar:$('#k'+i).value});if(r)toast('Nilai tersimpan')}
 
 const CH=[
