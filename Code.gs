@@ -14,9 +14,21 @@ const KEY={
 [[0,1,2,4],'Qiyas bukan tahapan akhirat.'],[[0,1,3],'Dajjal dan matahari dari barat adalah tanda besar.'],[[0,1,3],'Jujur, amanah, dan meminta maaf mencerminkan iman akhirat.'],[[0,1,3],'Waktu kiamat hanya diketahui Allah.'],[[0,1,3],'Salat, jujur, dan menolong memberatkan timbangan.'],[[0,2,3],'Barzakh adalah alam antara wafat dan kebangkitan.'],[[0,1,3],'Tetap tenang, periksa dalil, perbanyak amal.'],[[0,1,3],'Hidup terarah, beramal, takut zalim.'],
 [[1,2,3,0],'Barzakh: alam antara. Ba’ats: kebangkitan. Mahsyar: berkumpul. Hisab: penghitungan.','jd'],[[1,0,1,1],'Ulama wafat tanda kecil, lainnya tanda besar.','jd'],[[0,1,2,3],'Jujur, amanah, bertobat, menghargai waktu.','jd'],[[0,0,1,1],'Wafat dan gempa lokal sugra, sangkakala dan hancur total kubra.','jd'],[[1,3,0,2],'Mizan timbangan, sirat titian, surga nikmat, neraka azab.','jd'],
 [0,'Keduanya benar dan berhubungan.'],[1,'Keduanya benar tetapi alasan tidak menjelaskan pernyataan.'],[3,'Pernyataan salah, alasan benar.'],[0,'Keduanya benar dan berhubungan.'],[3,'Pernyataan salah, alasan benar.'],[4,'Keduanya salah.'],[2,'Pernyataan benar, alasan salah.']],
-3:[[1,'Periksa dulu kebenaran kabar (tabayyun).'],[2,'Gibah: keburukan yang benar adanya.'],[1,'Fitnah: tuduhan tanpa bukti.'],[2,'Tanggapi santun atau diam.'],[[0,1,3],'Tabayyun: cek sumber, tanya pihak terkait, bandingkan.'],[[0,1,3],'Hormat, sayang, dan menepati janji.'],[[1,0,3,2],'Gibah: keburukan benar. Fitnah: tuduhan palsu. Tabayyun: periksa. Ukhuwah: persaudaraan.','jd'],[0,'Keduanya benar dan berhubungan.'],[4,'Keduanya salah.'],[2,'Pernyataan benar, alasan salah.']],
-4:[[1,'Kurban sah setelah salat Iduladha.'],[0,'Akikah anak perempuan: satu kambing.'],[1,'Kurus dan pincang parah tidak memenuhi syarat.'],[1,'Daging akikah dibagikan matang.'],[[0,1,3],'Cukup umur, sehat, tidak sangat kurus.'],[[0,1,2],'Kurban menumbuhkan berbagi, empati, kebersamaan.'],[[1,0,2,3],'Dua kambing laki-laki, satu perempuan, waktu setelah salat id, dibagikan kepada yang berhak.','jd'],[0,'Keduanya benar dan berhubungan.'],[4,'Keduanya salah.'],[1,'Keduanya benar tapi tidak berhubungan.']],
-5:[[1,'Konstantinopel ditaklukkan tahun 1453 M.'],[2,'Persiapan matang menjadi kunci.'],[1,'Dakwah damai dan menyesuaikan budaya.'],[2,'Teori Mekkah: langsung dari Arab.'],[[0,1,2,4],'Wali Songo berdakwah damai.'],[[0,1,3],'Usmani luas wilayahnya dan kuat administrasinya.'],[[0,1,2,3],'Pasangan tokoh dan perannya.','jd'],[0,'Keduanya benar dan berhubungan.'],[2,'Pernyataan benar, alasan salah.'],[4,'Keduanya salah.']],
+3:[[1,'Periksa dulu kebenaran kabar (tabayyun).'],[2,'Gibah: keburukan yang benar adanya.'],[1,'Fitnah: tuduhan tanpa bukti.'],[2,'Tanggapi santun atau diam.'],[[0,1,3],'Tabayyun: cek sumber, tanya pihak terkait, bandingkan.'],[[0,1,3],'Hormat, sayang, dan menepati janji.'],[[1,0,3,2],'Gibah: keburukan benar. Fitnah: tuduhan palsu. Tabayyun: periksa. Ukhuwah: persaudaraan.','jd'],[0,'Keduanya benar dan berhubungan.'],[4,'Keduanya salah.'],[2,'Pernyataan benar, alasan salah.'],
+[1,'Tegur dengan santun dan ajak berhenti.'],[3,'Minta izin sebelum mengunggah foto orang lain.'],[0,'Wathaniyah: sebangsa dan setanah air.'],[2,'Basyariyah: menghormati sesama manusia.'],[2,'Hentikan gosip atau nasihati dengan baik.'],[3,'Simpan bukti dan lapor kepada orang dewasa.'],[0,'Jangan menuduh tanpa bukti.'],[1,'Tahan diri, diam atau jawab santun.'],[3,'Ukhuwah Islamiyah: saling menolong dalam kebaikan.'],[2,'Tabayyun mencegah hoaks dan fitnah.'],
+[[0,1,3],'Izin, pikirkan dampak, dan santun.'],[[0,1,3],'Membicarakan keburukan orang di belakangnya adalah gibah.'],[[0,1,3],'Tuduhan atau kabar bohong adalah fitnah.'],[[1,2,4],'Hoaks merusak nama baik, meresahkan, dan menimbulkan kebencian.'],[[1,2,4],'Hormat, tolong-menolong, dan memaafkan menjaga ukhuwah.'],[[1,2,4],'Cari sumber resmi, bandingkan, dan tanya orang yang paham.'],[[0,1,3],'Ayat 6 memerintahkan memeriksa berita agar tidak mencelakakan karena ketidaktahuan.'],[[1,2,4],'Salam, kata baik, dan meminta maaf mencerminkan santun.'],
+[[1,2,0],'Islamiyah: sesama muslim. Wathaniyah: sebangsa. Basyariyah: sesama manusia.','jd'],[[0,1,2,1],'Gibah: keburukan benar. Fitnah: tuduhan palsu. Tabayyun: periksa.','jd'],[[0,1,2,3],'Sikap beradab untuk tiap situasi.','jd'],[[1,3,0,2],'Hoaks meresahkan, hormat merukunkan, memaafkan memulihkan, prasangka merusak kepercayaan.','jd'],[[2,0,1],'Al-Hujurat 6 periksa berita, 10 bersaudara, 12 jauhi prasangka.','jd'],
+[0,'Keduanya benar dan berhubungan.'],[3,'Pernyataan salah, alasan benar.'],[4,'Keduanya salah.'],[0,'Keduanya benar dan berhubungan.'],[1,'Keduanya benar tetapi tidak berhubungan.'],[2,'Pernyataan benar, alasan salah.'],[0,'Keduanya benar dan berhubungan.']],
+4:[[1,'Kurban sah setelah salat Iduladha.'],[0,'Akikah anak perempuan: satu kambing.'],[1,'Kurus dan pincang parah tidak memenuhi syarat.'],[1,'Daging akikah dibagikan matang.'],[[0,1,3],'Cukup umur, sehat, tidak sangat kurus.'],[[0,1,2],'Kurban menumbuhkan berbagi, empati, kebersamaan.'],[[1,0,2,3],'Dua kambing laki-laki, satu perempuan, waktu setelah salat id, dibagikan kepada yang berhak.','jd'],[0,'Keduanya benar dan berhubungan.'],[4,'Keduanya salah.'],[1,'Keduanya benar tapi tidak berhubungan.'],
+[1,'Satu sapi dapat dipakai sampai tujuh orang.'],[3,'Waktu utama akikah hari ketujuh.'],[0,'Kurban mendekatkan diri kepada Allah dan berbagi.'],[2,'Ibadah mencakup badan dan harta.'],[3,'Pisau tajam dan hewan yang tenang adalah tuntunan.'],[1,'Upah jagal dari uang pribadi, bukan daging kurban.'],[2,'Laksanakan sesuai kemampuan, dua kambing lebih utama.'],[0,'Hewan kurban: unta, sapi, kambing, domba.'],[3,'Akikah terkait kelahiran, kurban terkait Iduladha.'],[2,'Dianjurkan membaca basmalah dan takbir.'],
+[[0,1,3],'Basmalah, kiblat, dan pisau tajam.'],[[0,1,3],'Buta sebelah, sangat kurus, dan pincang parah tidak sah.'],[[0,1,2,4],'Pekurban, kerabat, dan yang membutuhkan.'],[[0,1,2],'Akikah menumbuhkan berbagi, syukur, dan kebersamaan.'],[[0,1,2,4],'Akikah: syukur, dua dan satu kambing, hari ketujuh.'],[[0,1,3],'Kurban sunnah muakkadah dan dibagikan kepada yang berhak.'],[[0,1,3,4],'Adil, tepat sasaran, bersih, mengutamakan yang membutuhkan.'],[[0,1,2,4],'Hikmah kurban: ketaatan, dermawan, ikhlas, solidaritas.'],
+[[0,1,2,3],'Akikah, kurban, hari tasyrik, fakir miskin.','jd'],[[3,1,0,2],'Laki-laki dua kambing, perempuan satu, cacat parah tidak sah, daging dibagi adil.','jd'],[[1,3,0,2],'Pengorbanan, kepedulian, kasih sayang, keikhlasan.','jd'],[[0,2,3,1],'Al-Kautsar: salat dan kurban. Ibrahim diuji, Ismail sabar, Iduladha hari raya kurban.','jd'],[[1,3,0],'Akikah hari ketujuh, kurban setelah salat id, salat id pagi 10 Zulhijah.','jd'],
+[0,'Keduanya benar dan berhubungan.'],[4,'Keduanya salah.'],[0,'Keduanya benar dan berhubungan.'],[2,'Pernyataan benar, alasan salah.'],[1,'Keduanya benar tetapi tidak berhubungan.'],[3,'Pernyataan salah, alasan benar.'],[2,'Pernyataan benar, alasan salah.']],
+5:[[1,'Konstantinopel ditaklukkan tahun 1453 M.'],[2,'Persiapan matang menjadi kunci.'],[1,'Dakwah damai dan menyesuaikan budaya.'],[2,'Teori Mekkah: langsung dari Arab.'],[[0,1,2,4],'Wali Songo berdakwah damai.'],[[0,1,3],'Usmani luas wilayahnya dan kuat administrasinya.'],[[0,1,2,3],'Pasangan tokoh dan perannya.','jd'],[0,'Keduanya benar dan berhubungan.'],[2,'Pernyataan benar, alasan salah.'],[4,'Keduanya salah.'],
+[2,'Meriam besar dan kapal lewat darat ke Teluk Tanduk Emas.'],[0,'Hagia Sophia dijadikan masjid.'],[3,'Berakhirnya Romawi Timur dan pusat baru Usmani.'],[1,'Teori Gujarat: pedagang India abad ke-13.'],[3,'Samudra Pasai: kerajaan Islam pertama di Nusantara.'],[0,'Sunan Ampel berdakwah lewat pendidikan.'],[2,'Dakwah memanfaatkan budaya agar mudah diterima.'],[1,'Catatan Ibnu Battuta menunjukkan Islam sudah berkembang.'],[3,'Pemerintahan dan militer terorganisasi.'],[0,'Bersungguh-sungguh dan terencana.'],
+[[0,1,2,4],'Pasukan terlatih, persiapan, meriam, strategi laut.'],[[0,1,2,4],'Gujarat, Mekkah, Persia, dan Cina.'],[[1,2,4],'Makam, catatan pelancong, jalur dagang.'],[[0,1,2,4],'Ampel, Giri, Kudus, dan Kalijaga adalah Wali Songo.'],[[0,1,3],'Santun, menghargai budaya, sabar dan bertahap.'],[[1,2,4],'Usmani didirikan Utsman, menguasai tiga benua, menaklukkan Konstantinopel.'],[[1,2,4],'Persiapan, persatuan, ilmu dan akhlak.'],[[0,1,3,4],'Seni, dagang jujur, pesantren, pernikahan.'],
+[[1,0,2,3],'Ampel pendidikan, Bonang tembang, Gresik dagang dan pengobatan, Kudus toleransi.','jd'],[[1,2,3,0],'Gujarat: India. Mekkah: Arab. Persia: budaya Persia. Cina: Tiongkok.','jd'],[[1,0,2],'Konstantinopel 1453 M, Usmani sekitar 1299 M, Ibnu Battuta 1345 M.','jd'],[[1,3,2,0],'Meriam menembus tembok, kapal masuk Teluk, pasukan tangguh, persiapan mengurangi risiko.','jd'],[[2,3,1,0],'Kerja keras Al-Fatih, dakwah damai Wali Songo, kreativitas wayang, persatuan komando.','jd'],
+[0,'Keduanya benar dan berhubungan.'],[3,'Pernyataan salah, alasan benar.'],[2,'Pernyataan benar, alasan salah.'],[4,'Keduanya salah.'],[1,'Keduanya benar tetapi tidak berhubungan.'],[3,'Pernyataan salah, alasan benar.'],[0,'Keduanya benar dan berhubungan.']],
 6:[[1,'Khalifah bertugas memakmurkan dan menjaga bumi, bukan merusaknya.'],[0,'Kasih sayang mencakup manusia dan makhluk lain, termasuk hewan.']],
 7:[[1,'Ikhtiar dan doa dahulu, lalu tawakal.'],[2,'Sabar, evaluasi diri, dan mencoba lagi mencerminkan iman kepada takdir.']],
 8:[[1,'Kaligrafi termasuk seni rupa.'],[2,'Karya seni Islami boleh dan bernilai baik bila isi dan tujuannya sesuai syariat.']],
@@ -26,7 +38,7 @@ const KEY={
 const SS=()=>SpreadsheetApp.getActive();
 function setup(){Object.keys(HEAD).forEach(n=>{const s=SS().getSheetByName(n)||SS().insertSheet(n);if(!s.getLastRow())s.appendRow(HEAD[n])});
  SS().getSheetByName('Admin').appendRow(['Password guru ada di Script Properties: ADMIN_PASS']);
- PropertiesService.getScriptProperties().setProperty('ADMIN_PASS','GANTI_PASSWORD_INI')}
+ const p=PropertiesService.getScriptProperties();if(!p.getProperty('ADMIN_PASS'))p.setProperty('ADMIN_PASS','GANTI_PASSWORD_INI')}
 function all(n){const v=SS().getSheetByName(n).getDataRange().getValues(),h=v.shift();
  return {r:v.map((x,i)=>{const o={_row:i+2};h.forEach((k,j)=>o[k]=x[j]);return o})}}
 function put(n,o){SS().getSheetByName(n).appendRow(HEAD[n].map(k=>o[k]===undefined?'':o[k]))}
@@ -46,9 +58,10 @@ function chk(d){const C=CacheService.getScriptCache(),c=C.get('s_'+d.id);
  else{if(!all('Siswa').r.some(x=>x.id==d.id))throw Error('Siswa tidak ditemukan');C.put('s_'+d.id,d.sid,21600)}}
 function tk(d){if(CacheService.getScriptCache().get('t_'+d.token)!=='1')throw Error('Sesi guru berakhir, login ulang')}
 
+const locks=()=>JSON.parse(PropertiesService.getScriptProperties().getProperty('LOCK')||'[]');
 function state(id){const S=all('Siswa').r,s=S.find(x=>x.id==id),prog={};
  all('Progres').r.filter(x=>x.id==id).forEach(x=>prog[x.bab]={m:+x.materi,l:+x.latihan,n:x.nilai});
- return {ok:1,xp:+s.xp||0,prog,lb:S.sort((a,b)=>(+b.xp||0)-(+a.xp||0)).slice(0,10).map(x=>({nama:x.nama,kelas:x.kelas,xp:+x.xp||0}))}}
+ return {ok:1,xp:+s.xp||0,prog,lock:locks(),lb:S.sort((a,b)=>(+b.xp||0)-(+a.xp||0)).slice(0,10).map(x=>({nama:x.nama,kelas:x.kelas,xp:+x.xp||0}))}}
 function setProg(id,bab,f){const o=all('Progres').r.find(x=>x.id==id&&x.bab==bab);
  if(o){Object.assign(o,f);upd('Progres',o)}else put('Progres',Object.assign({id,bab,materi:0,latihan:0,nilai:'',ts:Date.now()},f))}
 function award(id,act,xp){const k=id+'|'+act;if(all('XP_Log').r.some(x=>x.activity_id==k))return 0;
@@ -74,8 +87,10 @@ state(d){chk(d);return state(d.id)},
 hb(d){chk(d);CacheService.getScriptCache().put('h_'+d.id,JSON.stringify({t:Date.now(),b:d.bab,p:d.page}),180);
  if(d.ev)put('Aktivitas',{ts:Date.now(),id:d.id,bab:d.bab,page:d.page});return {ok:1}},
 finish(d){chk(d);const b=+d.bab;if(!(b>=1&&b<=10))throw Error('Bab salah');
+ if(locks().includes(b))throw Error('Bab ini dikunci guru');
  const g=award(d.id,'M'+b,10);setProg(d.id,b,{materi:1,ts:Date.now()});return Object.assign(state(d.id),{gain:g})},
 quiz(d){chk(d);const b=+d.bab,K=KEY[b];if(!K)throw Error('Bab salah');
+ if(locks().includes(b))throw Error('Bab ini dikunci guru');
  if(all('Progres').r.some(x=>x.id==d.id&&x.bab==b&&+x.latihan))throw Error('Latihan sudah dikerjakan');
  const mc=d.mc||[];if(mc.length!==K.length)throw Error('Jumlah jawaban tidak sesuai');
  const sc=K.map((k,i)=>score(k,mc[i])),n=Math.round(sc.reduce((a,v)=>a+v,0)*10)/10,nilai=Math.round(n/K.length*100);
@@ -86,9 +101,9 @@ quiz(d){chk(d);const b=+d.bab,K=KEY[b];if(!K)throw Error('Bab salah');
 tlogin(d){Utilities.sleep(800);
  if(!d.pw||d.pw!==PropertiesService.getScriptProperties().getProperty('ADMIN_PASS'))throw Error('Password salah');
  const t=Utilities.getUuid();CacheService.getScriptCache().put('t_'+t,'1',21600);return {ok:1,token:t}},
-tlist(d){tk(d);const C=CacheService.getScriptCache(),S=all('Siswa').r.filter(x=>!d.kelas||x.kelas==d.kelas),P=all('Progres').r,now=Date.now(),H={};
+tlist(d){tk(d);const C=CacheService.getScriptCache(),AL=all('Siswa').r,S=AL.filter(x=>!d.kelas||x.kelas==d.kelas),P=all('Progres').r,now=Date.now(),H={};
  for(let i=0;i<S.length;i+=100)Object.assign(H,C.getAll(S.slice(i,i+100).map(x=>'h_'+x.id)));
- return {ok:1,s:S.map(x=>{const h=H['h_'+x.id]?JSON.parse(H['h_'+x.id]):null,p=P.filter(y=>y.id==x.id),n=p.filter(y=>y.nilai!=='');
+ return {ok:1,n:AL.reduce((a,x)=>(a[x.kelas]=(a[x.kelas]||0)+1,a),{}),s:S.map(x=>{const h=H['h_'+x.id]?JSON.parse(H['h_'+x.id]):null,p=P.filter(y=>y.id==x.id),n=p.filter(y=>y.nilai!=='');
   return {id:x.id,nama:x.nama,absen:x.absen,kelas:x.kelas,xp:+x.xp||0,m:p.reduce((a,y)=>a+(+y.materi||0),0),l:n.length,
    avg:n.length?Math.round(n.reduce((a,y)=>a+Number(y.nilai),0)/n.length):null,on:!!h&&now-h.t<60000,seen:h?h.t:null,bab:h?h.b:null,pg:h?h.p:null,dup:!!C.get('dup_'+x.id)}})}},
 tsave(d){tk(d);const a=d.s,k=a.kelas,ab=String(+a.absen);
@@ -103,5 +118,9 @@ turaian(d){tk(d);const m={};all('Siswa').r.forEach(x=>m[x.id]=x);
  return {ok:1,u:all('Uraian').r.filter(x=>m[x.id]&&(!d.kelas||m[x.id].kelas==d.kelas)).map(x=>({key:x.key,nama:m[x.id].nama,kelas:m[x.id].kelas,bab:x.bab,no:x.no,jawaban:x.jawaban,nilai:x.nilai,komentar:x.komentar}))}},
 tnilai(d){tk(d);const o=all('Uraian').r.find(x=>x.key==d.key);if(!o)throw Error('Jawaban tidak ditemukan');
  const n=Number(d.nilai);if(!(n>=0&&n<=100))throw Error('Nilai harus 0-100');
- o.nilai=n;o.komentar=String(d.komentar||'').slice(0,500);upd('Uraian',o);return {ok:1}}
+ o.nilai=n;o.komentar=String(d.komentar||'').slice(0,500);upd('Uraian',o);return {ok:1}},
+tlocks(d){tk(d);return {ok:1,lock:locks()}},
+tlock(d){tk(d);const b=+d.bab;if(!(b>=1&&b<=10))throw Error('Bab salah');
+ const l=locks().filter(x=>x!==b);if(d.on===true)l.push(b);l.sort((x,y)=>x-y);
+ PropertiesService.getScriptProperties().setProperty('LOCK',JSON.stringify(l));return {ok:1,lock:l}}
 };
