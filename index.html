@@ -147,7 +147,7 @@ const bar=p=>`<div class="pg"><i style="width:${p}%"></i></div>`;
 
 let BK={};const BKP=fetch('bank-soal.html').then(r=>r.text()).then(t=>{BK=JSON.parse(new DOMParser().parseFromString(t,'text/html').getElementById('bank').textContent)}).catch(()=>{});
 const lockMsg=()=>{$('#app').innerHTML=`<div class="c"><h3>🔒 Bab dikunci</h3><p>Bab ini belum dibuka oleh guru.</p><button class="b o" onclick="go('materi')">Kembali</button></div>`};
-const NEED={1:40,2:40,3:10,4:10,5:10},qs=()=>BK[bab]||CH[bab-1].Q.m,L=k=>'ABCDE'[k];
+const NEED={1:40,2:40,3:40,4:40,5:40},qs=()=>BK[bab]||CH[bab-1].Q.m,L=k=>'ABCDE'[k];
 const SA=['Pernyataan benar, alasan benar, dan keduanya berhubungan sebab-akibat','Pernyataan benar, alasan benar, tetapi tidak berhubungan sebab-akibat','Pernyataan benar, alasan salah','Pernyataan salah, alasan benar','Pernyataan dan alasan keduanya salah'];
 const rd=(i,o)=>o.map((x,j)=>`<label class="opt"><input type="radio" name="m${i}" value="${j}"><span>${L(j)}. ${x}</span></label>`).join('');
 function qh(q,i){const h=`<div class="c"><b>${i+1}. `;
