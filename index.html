@@ -142,7 +142,7 @@ function render(){$('#app').onchange=$('#app').oninput=null;$('#nav').innerHTML=
  $('#nav').classList.remove('open');if(!S&&page!=='guru')return V.login();V[page==='bab'?'bab':page]()}
 const opts=s=>KS.map(k=>`<option ${k===s?'selected':''}>${k}`).join('');
 const podium=()=>{const L=ST.lb||[],H=[84,110,64],O=[1,0,2],M=['🥈','🥇','🥉'];
- return `<div class="c"><h3>Podium XP</h3><div class="pd">${O.map((k,j)=>{const x=L[k];return `<div class="pl"><div class="pn">${x?esc(x.nama):'-'}<br><small>${x?x.kelas+' · '+x.xp+' XP':''}</small></div><div class="pb p${k+1}" style="height:${H[j]}px">${M[j]}<b>${k+1}</b></div></div>`}).join('')}</div>${L.slice(3,8).map((x,i)=>`<p class="rk${S&&x.nama===S.nama&&x.kelas===S.kelas?' me':''}">${i+4}. ${esc(x.nama)} (${x.kelas}) <b>${x.xp} XP</b></p>`).join('')}</div>`};
+ return `<div class="c"><h3>Podium Juara</h3><p class="mut"><small>Poin = 40% XP + 60% nilai latihan</small></p><div class="pd">${O.map((k,j)=>{const x=L[k];return `<div class="pl"><div class="pn">${x?esc(x.nama):'-'}<br><small>${x?x.kelas+' · '+x.skor+' poin':''}</small></div><div class="pb p${k+1}" style="height:${H[j]}px">${M[j]}<b>${k+1}</b></div></div>`}).join('')}</div>${L.slice(3,8).map((x,i)=>`<p class="rk${S&&x.nama===S.nama&&x.kelas===S.kelas?' me':''}">${i+4}. ${esc(x.nama)} (${x.kelas}) <span><b>${x.skor} poin</b> <small>XP ${x.xp} · Nilai ${x.nilai}</small></span></p>`).join('')}</div>`};
 const bar=p=>`<div class="pg"><i style="width:${p}%"></i></div>`;
 
 let BK={};const BKP=fetch('bank-soal.html').then(r=>r.text()).then(t=>{BK=JSON.parse(new DOMParser().parseFromString(t,'text/html').getElementById('bank').textContent)}).catch(()=>{});
@@ -194,20 +194,20 @@ bab(){const c=CH[bab-1];if(LK(bab))return lockMsg();$('#app').innerHTML=`<div cl
 <div class="c"><h3>Materi</h3>${c.ms.map(x=>`<p>${x}</p>`).join('')}</div>
 <div class="c"><h3>Dalil dan terjemahan</h3>${c.dl.map(d=>`<div class="ar">${d.r}</div><p><i>${d.i}</i></p>`).join('')}</div>
 <div class="c"><h3>Contoh penerapan</h3><p>${c.ct}</p></div><div class="c"><h3>Rangkuman</h3><p>${c.rg}</p>
-${P(bab).m?'<p class="ok">Bab ini sudah selesai ✓</p>':`<button class="b g" onclick="fin(${bab})">Selesai belajar (+10 XP)</button>`}</div>`},
+${P(bab).m?'<p class="ok">Bab ini sudah selesai ✓</p>':`<button class="b g" onclick="fin(${bab})">Selesai belajar (+10 XP)</button>`}<button class="b" onclick="go('quiz',${bab})">✏️ ${P(bab).l?'Lihat status latihan':'Kerjakan latihan soal'}</button></div>`},
 async latihan(){await load();$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Latihan Bab ${i+1}</b><p>${c.t}</p><p class="${P(i+1).l?'ok':'mut'}">${P(i+1).l?'Nilai pilihan ganda: '+P(i+1).n:'Belum dikerjakan'}</p>${LK(i+1)?'<button class="b o" disabled>🔒 Dikunci guru</button>':`<button class="b" onclick="go('quiz',${i+1})">${P(i+1).l?'Lihat status':'Mulai latihan'}</button>`}</div>`).join('')},
 async quiz(){const c=CH[bab-1];await BKP;if(LK(bab))return lockMsg();if(!P(bab).l&&NEED[bab]&&!BK[bab])return $('#app').innerHTML='<div class="c"><p class="no">Bank soal belum termuat. Pastikan bank-soal.html ada di folder yang sama dengan index.html.</p></div>';if(P(bab).l)return $('#app').innerHTML=`<div class="c"><h3>Latihan Bab ${bab}</h3><p class="ok">Sudah dikerjakan. Nilai pilihan ganda: ${P(bab).n}. Jawaban uraian sudah dikirim ke guru.</p><button class="b o" onclick="go('latihan')">Kembali</button></div>`;
  $('#app').innerHTML=`<h2>Latihan Bab ${bab}</h2><p id="sv" class="mut">Jawaban tersimpan otomatis.</p>${qs().map(qh).join('')}
 ${c.Q.u.map((q,i)=>`<div class="c"><b>Uraian ${i+1}. ${q}</b><textarea id="u${i}" rows="4" placeholder="Tulis jawabanmu"></textarea></div>`).join('')}<button class="b g" onclick="sendQ()">Kirim jawaban (+20 XP)</button>`;await restore()},
 async progres(){await load();$('#app').innerHTML=`<div class="c hero"><h2>Level ${LV(ST.xp)}</h2><p>${ST.xp} XP · ${pct()}%</p>${bar(pct())}</div><div class="c"><h3>Badge</h3>${BD.map(b=>`<span class="bd ${ST.xp>=b[0]?'':'x'}">${b[1]}</span>`).join('')}</div>
 ${CH.map((c,i)=>`<div class="c"><b>Bab ${i+1}</b><br>Materi: ${P(i+1).m?'✓':'-'} · Latihan: ${P(i+1).l?'✓ nilai '+P(i+1).n:'-'}</div>`).join('')}
-<div class="c"><h3>Leaderboard</h3>${ST.lb.map((x,i)=>`<p>${i+1}. ${esc(x.nama)} (${x.kelas}) <b>${x.xp} XP</b></p>`).join('')||'<p class="mut">Belum ada data.</p>'}</div>`},
+<div class="c"><h3>Leaderboard</h3>${ST.lb.map((x,i)=>`<p>${i+1}. ${esc(x.nama)} (${x.kelas}) <span><b>${x.skor} poin</b> <small>XP ${x.xp} · Nilai ${x.nilai}</small></span></p>`).join('')||'<p class="mut">Belum ada data.</p>'}</div>`},
 guru(){if(!T)return $('#app').innerHTML=`<div class="c"><h2>Laman Guru</h2><input id="gp" type="password" placeholder="Password guru"><button class="b" onclick="gLogin()">Masuk</button></div>`;
  $('#app').innerHTML=`<div class="c"><select id="gk" onchange="fk=this.value;gt()"><option value="">Semua kelas${KS.map(k=>`<option ${k===fk?'selected':''}>${k}`).join('')}</select><button class="b ${tab==='s'?'':'o'}" onclick="tab='s';gt()">Siswa dan status online</button><button class="b ${tab==='u'?'':'o'}" onclick="tab='u';gt()">Jawaban uraian</button><button class="b ${tab==='k'?'':'o'}" onclick="tab='k';gt()">🔒 Kunci dan buka bab</button><button class="b o" onclick="T=null;render()">Keluar guru</button></div><div id="gb"></div>`;gt()}};
 
 async function doLogin(){const r=await call('login',{id:0,sid:0,nama:$('#ln').value,absen:$('#la').value,kelas:$('#lk').value});if(!r)return;
  S={id:r.id,sid:r.sid,nama:r.nama,kelas:r.kelas,absen:r.absen};lss('sess',JSON.stringify(S));ST=r;go('home')}
-async function fin(n){const r=await call('finish',{bab:n});if(r){ST=r;toast(r.gain?'+'+r.gain+' XP':'Sudah tercatat');go('materi')}}
+async function fin(n){const r=await call('finish',{bab:n});if(r){ST=r;toast(r.gain?'+'+r.gain+' XP':'Sudah tercatat');go('bab',n)}}
 async function sendQ(){const c=CH[bab-1],Q=qs(),mc=Q.map(ga),ur=c.Q.u.map((q,i)=>$('#u'+i).value.trim());
  if(mc.includes(-1)||ur.some(x=>!x))return toast('Jawab semua soal dulu');
  const r=await call('quiz',{bab,mc,ur});if(!r)return;clearTimeout(dT);pend=null;lss('dr_'+S.id+'_'+bab,null);if(DB)AU.then(()=>DB.ref('draft/'+S.id+'/'+bab).remove()).catch(()=>{});ST={xp:r.xp,prog:r.prog,lock:r.lock,lb:r.lb};
@@ -288,7 +288,7 @@ dl:[{r:'قَدْ خَلَتْ مِن قَبْلِكُمْ سُنَنٌ فَسِ�
 ct:'Mempelajari sejarah untuk meneladani semangat ilmu, seni, dan toleransi.',rg:'Safawi dan Mughal menunjukkan kemajuan seni, arsitektur, dan tata negara yang bisa diteladani.',
 Q:{m:[{q:'Taj Mahal dibangun pada masa Dinasti...',o:['Safawi','Mughal','Usmani','Abbasiyah']},{q:'Kebijakan Akbar yang menghormati berbagai agama di India menunjukkan...',o:['Pemaksaan keyakinan','Penutupan perdagangan','Penolakan ilmu pengetahuan','Toleransi yang mendukung stabilitas dan kemajuan']}],u:['Bandingkan satu kemajuan Dinasti Safawi dan Mughal, lalu tulis pelajaran yang bisa diteladani generasi muda.']}}
 ];
-const IC={'Tujuan pembelajaran':'🎯','Peta konsep':'🗺️','Materi':'📖','Dalil dan terjemahan':'🕋','Contoh penerapan':'💡','Rangkuman':'⭐','Badge':'🏅','Leaderboard':'🏆','Podium XP':'🏆'};
+const IC={'Tujuan pembelajaran':'🎯','Peta konsep':'🗺️','Materi':'📖','Dalil dan terjemahan':'🕋','Contoh penerapan':'💡','Rangkuman':'⭐','Badge':'🏅','Leaderboard':'🏆','Podium Juara':'🏆'};
 new MutationObserver(()=>document.querySelectorAll('#app h3').forEach(h=>{const k=IC[h.textContent];if(k)h.textContent=k+' '+h.textContent})).observe($('#app'),{childList:true});
 render();pres();if(S)load().then(()=>{if(page==='home')V.home()});
 </script></body></html>
