@@ -138,7 +138,7 @@ setInterval(()=>{if(pref)pref.update({t:TS})},30000);
 setInterval(()=>{if(page==='guru'&&T&&tab==='s')gl()},10000);
 setInterval(()=>{if(page==='guru'&&T&&tab==='s')paint()},5000);
 async function load(){const r=await call('state');if(r)ST=r}
-function render(){$('#nav').innerHTML=NAV.map(n=>`<a onclick="go('${n[0]}')">${n[1]}</a>`).join('')+(S?`<a onclick="out()">Keluar: ${esc(S.nama)} (${S.kelas}/${S.absen})</a>`:'');
+function render(){$('#app').onchange=$('#app').oninput=null;$('#nav').innerHTML=NAV.map(n=>`<a onclick="go('${n[0]}')">${n[1]}</a>`).join('')+(S?`<a onclick="out()">Keluar: ${esc(S.nama)} (${S.kelas}/${S.absen})</a>`:'');
  $('#nav').classList.remove('open');if(!S&&page!=='guru')return V.login();V[page==='bab'?'bab':page]()}
 const opts=s=>KS.map(k=>`<option ${k===s?'selected':''}>${k}`).join('');
 const podium=()=>{const L=ST.lb||[],H=[84,110,64],O=[1,0,2],M=['🥈','🥇','🥉'];
@@ -159,6 +159,30 @@ function ga(q,i){if(q.t==='pk'){const a=[...document.querySelectorAll(`input[nam
  if(q.t==='jd'){const a=q.l.map((x,j)=>$(`#m${i}_${j}`).value);return a.includes('')?-1:a.map(Number)}
  const e=document.querySelector(`input[name=m${i}]:checked`);return e?+e.value:-1}
 const fkun=(q,k)=>q.t==='jd'?k.map((v,j)=>`${j+1}-${L(v)}`).join(', '):Array.isArray(k)?k.map(L).join(', '):L(k);
+let dT=null,pend=null,dirty=false;const ind=t=>{const e=$('#sv');if(e)e.textContent=t};
+function snap(){const Q=qs();return {mc:Q.map((q,i)=>{if(q.t==='pk')return [...document.querySelectorAll(`input[name=m${i}]:checked`)].map(e=>+e.value);
+ if(q.t==='jd')return q.l.map((x,j)=>$(`#m${i}_${j}`).value);const e=document.querySelector(`input[name=m${i}]:checked`);return e?+e.value:null}),
+ ur:CH[bab-1].Q.u.map((x,i)=>$('#u'+i)?$('#u'+i).value:'')}}
+function dsv(p){if(!S)return;
+ if(DB)return AU.then(()=>DB.ref('draft/'+S.id+'/'+p.bab).set({data:JSON.stringify(p.data),ts:p.ts})).then(()=>ind('Tersimpan ✓')).catch(()=>ind('Tersimpan di perangkat'));
+ api('dsave',p).then(r=>{if(r.kicked)forceOut();else ind(r.ok?'Tersimpan ✓':'Tersimpan di perangkat')}).catch(()=>ind('Tersimpan di perangkat'))}
+function sched(){if(page!=='quiz'||!S)return;dirty=true;const p={bab,data:snap(),ts:Date.now()};pend=p;lss('dr_'+S.id+'_'+bab,JSON.stringify({data:p.data,ts:p.ts}));ind('Menyimpan…');clearTimeout(dT);
+ dT=setTimeout(()=>{pend=null;dsv(p)},DB?400:2500)}
+function flush(){if(!pend||!S)return;const p=pend;pend=null;clearTimeout(dT);if(DB){dsv(p);return}const b=JSON.stringify({a:'dsave',id:S.id,sid:S.sid,...p});
+ try{navigator.sendBeacon?navigator.sendBeacon(API,b):fetch(API,{method:'POST',body:b,keepalive:true})}catch(e){}}
+addEventListener('pagehide',flush);document.addEventListener('visibilitychange',()=>{if(document.hidden)flush()});
+function apply(d){const Q=qs();(d.mc||[]).forEach((a,i)=>{const q=Q[i];if(!q||a==null)return;
+ if(q.t==='pk')document.querySelectorAll(`input[name=m${i}]`).forEach(e=>e.checked=a.includes(+e.value));
+ else if(q.t==='jd')a.forEach((v,j)=>{const e=$(`#m${i}_${j}`);if(e&&v!=='')e.value=v});
+ else{const e=document.querySelector(`input[name=m${i}][value="${a}"]`);if(e)e.checked=true}});
+ (d.ur||[]).forEach((t,i)=>{const e=$('#u'+i);if(e)e.value=t||''})}
+async function restore(){const b0=bab;dirty=false;$('#app').onchange=$('#app').oninput=sched;let L=null,R=null;
+ try{L=JSON.parse(lsg('dr_'+S.id+'_'+b0)||'null')}catch(e){}
+ if(L&&L.data){apply(L.data);ind('Jawaban terakhirmu dipulihkan.')}
+ try{if(DB){await AU;const v=(await DB.ref('draft/'+S.id+'/'+b0).get()).val();if(v&&v.data)R={data:JSON.parse(v.data),ts:v.ts}}
+  else{const r=await api('dget',{bab:b0});if(r.kicked)return forceOut();if(r.ok&&r.data)R=r}}catch(e){}
+ if(page!=='quiz'||bab!==b0||!$('#sv')||dirty||!R||!R.data)return;
+ if(!L||(R.ts||0)>(L.ts||0)){apply(R.data);ind('Jawaban terakhirmu dipulihkan dari server. Lanjutkan mengerjakan.')}}
 const V={
 login(){$('#app').innerHTML=`<div class="c hero"><div class="ar">بِسْمِ اللَّهِ</div><h1>Modul PAI Kelas 9</h1></div><div class="c"><input id="ln" placeholder="Nama lengkap" autocomplete="name"><input id="la" type="number" min="1" placeholder="Nomor absen"><select id="lk">${opts()}</select><button class="b" onclick="doLogin()">Masuk</button><button class="b o" onclick="go('guru')">Laman Guru</button></div>`},
 async home(){await load();const x=pct(),nx=RB.map(n=>!P(n).m?['materi',n]:!P(n).l?['latihan',n]:0).find(Boolean);
@@ -173,8 +197,8 @@ bab(){const c=CH[bab-1];if(LK(bab))return lockMsg();$('#app').innerHTML=`<div cl
 ${P(bab).m?'<p class="ok">Bab ini sudah selesai ✓</p>':`<button class="b g" onclick="fin(${bab})">Selesai belajar (+10 XP)</button>`}</div>`},
 async latihan(){await load();$('#app').innerHTML=CH.map((c,i)=>`${i%5?'':`<h2>Semester ${i/5+1}</h2>`}<div class="c"><span class="ib">${c.e}</span><b>Latihan Bab ${i+1}</b><p>${c.t}</p><p class="${P(i+1).l?'ok':'mut'}">${P(i+1).l?'Nilai pilihan ganda: '+P(i+1).n:'Belum dikerjakan'}</p>${LK(i+1)?'<button class="b o" disabled>🔒 Dikunci guru</button>':`<button class="b" onclick="go('quiz',${i+1})">${P(i+1).l?'Lihat status':'Mulai latihan'}</button>`}</div>`).join('')},
 async quiz(){const c=CH[bab-1];await BKP;if(LK(bab))return lockMsg();if(!P(bab).l&&NEED[bab]&&!BK[bab])return $('#app').innerHTML='<div class="c"><p class="no">Bank soal belum termuat. Pastikan bank-soal.html ada di folder yang sama dengan index.html.</p></div>';if(P(bab).l)return $('#app').innerHTML=`<div class="c"><h3>Latihan Bab ${bab}</h3><p class="ok">Sudah dikerjakan. Nilai pilihan ganda: ${P(bab).n}. Jawaban uraian sudah dikirim ke guru.</p><button class="b o" onclick="go('latihan')">Kembali</button></div>`;
- $('#app').innerHTML=`<h2>Latihan Bab ${bab}</h2>${qs().map(qh).join('')}
-${c.Q.u.map((q,i)=>`<div class="c"><b>Uraian ${i+1}. ${q}</b><textarea id="u${i}" rows="4" placeholder="Tulis jawabanmu"></textarea></div>`).join('')}<button class="b g" onclick="sendQ()">Kirim jawaban (+20 XP)</button>`},
+ $('#app').innerHTML=`<h2>Latihan Bab ${bab}</h2><p id="sv" class="mut">Jawaban tersimpan otomatis.</p>${qs().map(qh).join('')}
+${c.Q.u.map((q,i)=>`<div class="c"><b>Uraian ${i+1}. ${q}</b><textarea id="u${i}" rows="4" placeholder="Tulis jawabanmu"></textarea></div>`).join('')}<button class="b g" onclick="sendQ()">Kirim jawaban (+20 XP)</button>`;await restore()},
 async progres(){await load();$('#app').innerHTML=`<div class="c hero"><h2>Level ${LV(ST.xp)}</h2><p>${ST.xp} XP · ${pct()}%</p>${bar(pct())}</div><div class="c"><h3>Badge</h3>${BD.map(b=>`<span class="bd ${ST.xp>=b[0]?'':'x'}">${b[1]}</span>`).join('')}</div>
 ${CH.map((c,i)=>`<div class="c"><b>Bab ${i+1}</b><br>Materi: ${P(i+1).m?'✓':'-'} · Latihan: ${P(i+1).l?'✓ nilai '+P(i+1).n:'-'}</div>`).join('')}
 <div class="c"><h3>Leaderboard</h3>${ST.lb.map((x,i)=>`<p>${i+1}. ${esc(x.nama)} (${x.kelas}) <b>${x.xp} XP</b></p>`).join('')||'<p class="mut">Belum ada data.</p>'}</div>`},
@@ -186,7 +210,7 @@ async function doLogin(){const r=await call('login',{id:0,sid:0,nama:$('#ln').va
 async function fin(n){const r=await call('finish',{bab:n});if(r){ST=r;toast(r.gain?'+'+r.gain+' XP':'Sudah tercatat');go('materi')}}
 async function sendQ(){const c=CH[bab-1],Q=qs(),mc=Q.map(ga),ur=c.Q.u.map((q,i)=>$('#u'+i).value.trim());
  if(mc.includes(-1)||ur.some(x=>!x))return toast('Jawab semua soal dulu');
- const r=await call('quiz',{bab,mc,ur});if(!r)return;ST={xp:r.xp,prog:r.prog,lock:r.lock,lb:r.lb};
+ const r=await call('quiz',{bab,mc,ur});if(!r)return;clearTimeout(dT);pend=null;lss('dr_'+S.id+'_'+bab,null);if(DB)AU.then(()=>DB.ref('draft/'+S.id+'/'+bab).remove()).catch(()=>{});ST={xp:r.xp,prog:r.prog,lock:r.lock,lb:r.lb};
  $('#app').innerHTML=`<div class="c hero"><h2>Nilai: ${r.nilai}</h2><p>Benar ${r.benar} dari ${r.total}${r.gain?' · +'+r.gain+' XP':''}</p></div>${r.review.map((v,i)=>`<div class="c"><p class="${v.s>=1?'ok':'no'}">Soal ${i+1}: ${v.s>=1?'Benar':v.s>0?'Sebagian benar':'Salah'}. Kunci: ${fkun(Q[i],v.kunci)}</p><p>${esc(v.bahas)}</p></div>`).join('')}<div class="c"><p>Jawaban uraian dikirim ke guru untuk dinilai.</p><button class="b" onclick="go('latihan')">Selesai</button></div>`}
 
 async function gLogin(){const r=await call('tlogin',{id:0,sid:0,pw:$('#gp').value});if(r){T=r.token;render()}}
@@ -203,7 +227,7 @@ function paint(){if(!$('#gl')||tab!=='s')return;GL.forEach(x=>Object.assign(x,pq
  $('#gs').innerHTML=`<div class="c"><b>Siswa terdata: ${KN?KS.reduce((a,k)=>a+(KN[k]||0),0):'?'}</b><div class="kc">${KS.map(k=>`<span>${k}: ${KN?KN[k]||0:'?'}</span>`).join('')}</div>${KN?'':'<small class="no">Backend lama: salin Code.gs terbaru lalu deploy versi baru.</small>'}</div>`;
  $('#gl').innerHTML=GL.length?`<div class="c"><table class="tb"><tr><th></th><th>Nama</th><th>Abs</th><th>XP</th><th>Nilai</th></tr>${GL.map((x,i)=>`<tr class="r" onclick="gDet(${i})"><td><span class="d ${x.on?'on':''}"></span></td><td>${esc(x.nama)}<br><small>${x.kelas}${x.dup?' ⚠':''}</small></td><td>${x.absen}</td><td>${x.xp}</td><td>${x.avg??'-'}</td></tr>`).join('')}</table></div>`:'<p class="mut">Belum ada siswa.</p>'}
 async function gSave(){const r=await G('tsave',{s:{id:$('#gi').value,nama:$('#gn').value,absen:$('#ga').value,kelas:$('#gc').value}});if(r){toast('Tersimpan');mc();gl()}}
-async function gReset(i){const x=GL[i];if(confirm('Reset XP dan nilai '+x.nama+'? Semua progres, jawaban, dan XP akan dihapus. Tidak bisa dibatalkan.')){const r=await G('treset',{id:x.id});if(r){mc();toast('XP dan nilai '+x.nama+' direset');gl()}}}
+async function gReset(i){const x=GL[i];if(confirm('Reset XP dan nilai '+x.nama+'? Semua progres, jawaban, dan XP akan dihapus. Tidak bisa dibatalkan.')){const r=await G('treset',{id:x.id});if(r){mc();toast('XP dan nilai '+x.nama+' direset');if(DB)DB.ref('draft/'+x.id).remove().catch(()=>{});gl()}}}
 async function gDel(i){if(confirm('Hapus siswa '+GL[i].nama+'?')){const r=await G('tdel',{id:GL[i].id});if(r){mc();gl()}}}
 async function gu(){const r=await G('turaian');if(!r)return;GU=r.u;
  $('#gl').innerHTML=GU.map((x,i)=>`<div class="c"><b>${esc(x.nama)}</b> · ${x.kelas} · Bab ${x.bab} No ${+x.no+1}<p class="mut">${CH[x.bab-1].Q.u[x.no]}</p><p>${esc(x.jawaban)}</p><input id="n${i}" type="number" min="0" max="100" placeholder="Nilai 0-100" value="${esc(x.nilai)}"><input id="k${i}" placeholder="Komentar" value="${esc(x.komentar)}"><button class="b" onclick="gNilai(${i})">Simpan nilai</button></div>`).join('')||'<p class="mut">Belum ada jawaban.</p>'}
